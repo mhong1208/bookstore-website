@@ -2,6 +2,7 @@
 import { Card, Carousel, Button } from 'antd';
 import { ShoppingCartOutlined } from '@ant-design/icons';
 import '../BestSellers/styles.css'; // Reusing styles from BestSellers
+import { useNavigate } from 'react-router-dom';
 
 const { Meta } = Card;
 
@@ -15,7 +16,7 @@ const newReleases = [
   { id: 6, title: 'Người đua diều', author: 'Khaled Hosseini', price: '125.000đ', image: 'https://images.unsplash.com/photo-1521587760476-6c12a4b040da?q=80&w=2070&auto=format&fit=crop' },
 ];
 
-const BookCard = ({ book }: any) => (
+const BookCard = ({ book, onClick }: any) => (
   <Card
     hoverable
     className="book-card"
@@ -25,6 +26,7 @@ const BookCard = ({ book }: any) => (
         Thêm vào giỏ
       </Button>
     ]}
+    onClick={onClick}
   >
     <Meta title={book.title} description={book.author} />
     <div className="book-price">
@@ -34,6 +36,12 @@ const BookCard = ({ book }: any) => (
 );
 
 const NewReleases = () => {
+  const navigate = useNavigate();
+
+  const handleNavigate = (id: number) => {
+    navigate(`/product/${id}`);
+  };
+
   return (
     <div className="bestsellers-section"> {/* Reusing class for consistent styling */}
       <h2 className="section-title">Vừa Cập Bến</h2>
@@ -50,7 +58,7 @@ const NewReleases = () => {
       >
         {newReleases.map(book => (
           <div key={book.id} className="carousel-item-padding">
-            <BookCard book={book} />
+            <BookCard book={book} onClick={() => handleNavigate(book.id)} />
           </div>
         ))}
       </Carousel>

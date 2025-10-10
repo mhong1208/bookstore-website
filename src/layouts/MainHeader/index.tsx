@@ -1,14 +1,15 @@
 
 import React, { useState } from 'react';
-import { Layout, Menu, Button, Row, Col, Avatar, Drawer } from 'antd';
+import { Layout, Menu, Button, Row, Col, Avatar, Drawer, Badge } from 'antd';
 import { Link } from 'react-router-dom';
-import { UserOutlined, MenuOutlined } from '@ant-design/icons';
+import { UserOutlined, MenuOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import './styles.css';
 
 const { Header } = Layout;
 
 // Mock user state
 const isLoggedIn = false;
+const cartItemCount = 2; // Placeholder
 
 const MainHeader: React.FC = () => {
   const [drawerVisible, setDrawerVisible] = useState(false);
@@ -30,6 +31,24 @@ const MainHeader: React.FC = () => {
     </>
   );
 
+  const userActions = (
+    <>
+      <Link to="/cart" style={{ marginRight: '20px' }}>
+        <Badge count={cartItemCount}>
+          <ShoppingCartOutlined style={{ fontSize: '24px', color: 'var(--text-color)' }} />
+        </Badge>
+      </Link>
+      {isLoggedIn ? (
+        <Avatar size="large" icon={<UserOutlined />} />
+      ) : (
+        <>
+          <Button style={{ marginRight: '10px' }}>Đăng Nhập</Button>
+          <Button type="primary">Đăng Ký</Button>
+        </>
+      )}
+    </>
+  );
+
   return (
     <Header className="main-header">
       <Row justify="space-between" align="middle" style={{ height: '100%' }}>
@@ -44,14 +63,7 @@ const MainHeader: React.FC = () => {
         </Col>
 
         <Col className="user-actions">
-          {isLoggedIn ? (
-            <Avatar size="large" icon={<UserOutlined />} />
-          ) : (
-            <>
-              <Button  style={{ marginRight: '10px' }}>Đăng Nhập</Button>
-              <Button type="primary">Đăng Ký</Button>
-            </>
-          )}
+          {userActions}
         </Col>
 
         <Col className="mobile-menu-icon">
@@ -70,14 +82,7 @@ const MainHeader: React.FC = () => {
           {menuItems}
         </Menu>
         <div className="mobile-drawer-actions">
-        {isLoggedIn ? (
-            <Avatar size="large" icon={<UserOutlined />} />
-          ) : (
-            <>
-              <Button style={{ marginBottom: '10px' }}>Đăng Nhập</Button>
-              <Button type="primary">Đăng Ký</Button>
-            </>
-          )}
+          {userActions}
         </div>
       </Drawer>
     </Header>

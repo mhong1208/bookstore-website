@@ -2,6 +2,7 @@
 import { Card, Carousel, Button } from 'antd';
 import { ShoppingCartOutlined } from '@ant-design/icons';
 import './styles.css';
+import { useNavigate } from 'react-router-dom';
 
 const { Meta } = Card;
 
@@ -15,7 +16,7 @@ const bestSellers = [
   { id: 6, title: 'Deep Work', author: 'Cal Newport', price: '110.000đ', image: 'https://images.unsplash.com/photo-1598300188926-0a2a8b5d1575?q=80&w=1887&auto=format&fit=crop' },
 ];
 
-const BookCard = ({ book }: any) => (
+const BookCard = ({ book, onClick }: any) => (
   <Card
     hoverable
     className="book-card"
@@ -25,6 +26,7 @@ const BookCard = ({ book }: any) => (
         Thêm vào giỏ
       </Button>
     ]}
+    onClick={onClick}
   >
     <Meta title={book.title} description={book.author} />
     <div className="book-price">
@@ -35,6 +37,12 @@ const BookCard = ({ book }: any) => (
 );
 
 const BestSellers = () => {
+  const navigate = useNavigate();
+
+  const handleNavigate = (id: number) => {
+    navigate(`/product/${id}`);
+  };
+
   return (
     <div className="bestsellers-section">
       <h2 className="section-title">Sách Bán Chạy Nhất Tuần</h2>
@@ -51,7 +59,7 @@ const BestSellers = () => {
       >
         {bestSellers.map(book => (
           <div key={book.id} className="carousel-item-padding">
-            <BookCard book={book} />
+            <BookCard book={book} onClick={() => handleNavigate(book.id)} />
           </div>
         ))}
       </Carousel>

@@ -1,29 +1,23 @@
 :root {
   /* Brand Colors */
-  --primary-color: #2563EB;
-  --primary-color-dark: #1D4ED8;
-  --primary-color-light: #5A8DFF;
-  --primary-color-translucent: rgba(37, 99, 235, 0.8);
+  --primary-color: #2563EB; /* Xanh chủ đạo */
+  --primary-color-dark: #1E3A8A; /* Xanh đậm */
+  --primary-color-light: #EFF6FF; /* Xanh nhạt */
 
   /* Background Colors */
-  --bg-light-blue: #EFF6FF;
-  --bg-light-grey: #f9fafb;
-  --bg-white: #fff;
+  --bg-white: #FFFFFF; /* Nền chính */
 
   /* Text Colors */
-  --text-primary: #333;
-  --text-secondary: #555;
-  --text-light: #888;
-  --text-on-primary: #fff;
+  --text-primary: #111827; /* Màu chữ chính */
+  --text-secondary: #6B7280; /* Màu chữ phụ */
+  --text-on-primary: #FFFFFF;
 
   /* Action & Status Colors */
   --danger-color: #D9534F;
   --price-color: #d72828;
 
   /* Border & Shadow */
-  --border-color: #e8e8e8;
-  --shadow-color-light: rgba(0, 0, 0, 0.1);
-  --shadow-color-medium: rgba(0, 0, 0, 0.15);
-  --shadow-color-dark: rgba(0, 0, 0, 0.5);
-  --overlay-color: rgba(0, 0, 0, 0.4);
+  --border-color: #6B7280;
+  --shadow-color-light: rgba(0, 0, 0, 0.05);
+  --shadow-color-medium: rgba(0, 0, 0, 0.1);
 }

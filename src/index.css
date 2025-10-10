@@ -20,3 +20,14 @@ body {
 .ant-layout-header {
     padding: 0 !important;
 }
+
+.ant-carousel .slick-prev::after{
+  top: 14px !important;
+  inset-inline-start: 16px !important;
+}
+
+
+.ant-carousel .slick-next::after{
+  top: 14px !important;
+  inset-inline-start: 12px !important;
+}
