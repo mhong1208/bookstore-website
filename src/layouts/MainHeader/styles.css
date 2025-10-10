@@ -1,0 +1,65 @@
+
+.main-header {
+  background: var(--bg-white) !important;
+  border-bottom: 1px solid var(--border-color);
+  padding: 0 24px !important;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  height: 64px;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.logo a {
+  color: var(--text-primary);
+}
+
+.desktop-menu {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.desktop-menu .ant-menu {
+  border-bottom: none;
+  background: transparent;
+}
+
+.user-actions button {
+  border-radius: 6px;
+}
+
+.mobile-menu-icon {
+  display: none; /* Hidden by default */
+}
+
+/* Responsive Styles */
+@media (max-width: 992px) {
+  .desktop-menu,
+  .user-actions {
+    display: none; /* Hide desktop elements on smaller screens */
+  }
+
+  .mobile-menu-icon {
+    display: block; /* Show hamburger icon */
+  }
+}
+
+.mobile-drawer .ant-drawer-body {
+  padding: 0;
+}
+
+.mobile-drawer-actions {
+  padding: 24px;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+}
+
+.mobile-drawer-actions .ant-btn {
+  width: 100%;
+}

@@ -1,0 +1,38 @@
+.customer-reviews-section {
+  padding: 50px 5%;
+  background-color: var(--bg-light-grey);
+}
+
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.review-card {
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-white);
+}
+
+.review-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.reviewer-info {
+  margin-left: 16px;
+}
+
+.reviewer-name {
+  font-weight: bold;
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.review-text {
+  font-style: italic;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}

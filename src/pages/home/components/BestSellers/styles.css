@@ -1,0 +1,109 @@
+.bestsellers-section {
+  padding: 50px 5%;
+  background-color: var(--bg-white);
+}
+
+.section-title {
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 40px;
+  color: var(--text-primary);
+}
+
+.book-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px var(--shadow-color-light);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.book-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px var(--shadow-color-medium);
+}
+
+.book-cover-img {
+  height: 300px;
+  object-fit: cover;
+}
+
+.book-card .ant-card-body {
+  padding: 16px;
+}
+
+.book-card .ant-card-meta-title {
+  font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.book-price {
+  margin-top: 12px;
+}
+
+.current-price {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: var(--price-color);
+  margin-right: 8px;
+}
+
+.old-price {
+  text-decoration: line-through;
+  color: var(--text-light);
+}
+
+.book-card .add-to-cart-btn {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  color: var(--text-on-primary);
+  opacity: 0;
+  transform: translateY(100%);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  width: calc(100% - 32px);
+  margin: 0 16px;
+}
+
+.book-card:hover .add-to-cart-btn {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.book-card .ant-card-actions {
+  background: var(--bg-white);
+  border-top: none;
+  padding: 0 0 16px 0;
+  transition: background 0.3s ease;
+}
+
+.book-card:hover .ant-card-actions {
+  background: var(--bg-light-grey);
+}
+
+.carousel-item-padding {
+  padding: 0 12px;
+}
+
+/* Ant Design Carousel Arrow overrides */
+.bestsellers-section .ant-carousel .slick-arrow {
+  color: var(--text-on-primary);
+  background-color: var(--primary-color-translucent);
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.bestsellers-section .ant-carousel .slick-arrow:hover {
+  background-color: var(--primary-color);
+}
+
+.bestsellers-section .ant-carousel .slick-prev {
+  left: -35px;
+}
+
+.bestsellers-section .ant-carousel .slick-next {
+  right: -35px;
+}

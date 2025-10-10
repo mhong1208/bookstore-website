@@ -1,0 +1,29 @@
+:root {
+  /* Brand Colors */
+  --primary-color: #2563EB;
+  --primary-color-dark: #1D4ED8;
+  --primary-color-light: #5A8DFF;
+  --primary-color-translucent: rgba(37, 99, 235, 0.8);
+
+  /* Background Colors */
+  --bg-light-blue: #EFF6FF;
+  --bg-light-grey: #f9fafb;
+  --bg-white: #fff;
+
+  /* Text Colors */
+  --text-primary: #333;
+  --text-secondary: #555;
+  --text-light: #888;
+  --text-on-primary: #fff;
+
+  /* Action & Status Colors */
+  --danger-color: #D9534F;
+  --price-color: #d72828;
+
+  /* Border & Shadow */
+  --border-color: #e8e8e8;
+  --shadow-color-light: rgba(0, 0, 0, 0.1);
+  --shadow-color-medium: rgba(0, 0, 0, 0.15);
+  --shadow-color-dark: rgba(0, 0, 0, 0.5);
+  --overlay-color: rgba(0, 0, 0, 0.4);
+}

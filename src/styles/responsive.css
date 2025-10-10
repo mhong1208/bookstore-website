@@ -1,0 +1,55 @@
+/* General Responsive Rules */
+html {
+  font-size: 16px;
+}
+
+.section-title {
+  /* Responsive font size for section titles */
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+}
+
+/* Tablet and smaller */
+@media (max-width: 992px) {
+  .bestsellers-section,
+  .special-offers-section,
+  .customer-reviews-section,
+  .featured-categories-section {
+    padding: 40px 3%;
+  }
+}
+
+/* Mobile devices */
+@media (max-width: 768px) {
+  html {
+    font-size: 15px;
+  }
+
+  .hero-banner .hero-content h1 {
+    font-size: clamp(2.5rem, 8vw, 3.5rem);
+  }
+
+  .bestsellers-section .ant-carousel .slick-arrow {
+    /* Move arrows inside on mobile so they don't get cut off */
+    z-index: 2;
+  }
+  .bestsellers-section .ant-carousel .slick-prev {
+    left: 10px;
+  }
+  .bestsellers-section .ant-carousel .slick-next {
+    right: 10px;
+  }
+}
+
+@media (max-width: 576px) {
+  html {
+    font-size: 14px;
+  }
+
+  .main-offer-banner {
+    padding: 30px 20px;
+  }
+
+  .offer-title {
+    font-size: 2rem;
+  }
+}

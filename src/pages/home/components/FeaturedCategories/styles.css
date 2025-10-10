@@ -1,0 +1,37 @@
+.featured-categories-section {
+  padding: 50px 5%;
+  text-align: center;
+}
+
+.category-card {
+  border-radius: 12px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+  text-align: center;
+}
+
+.category-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 20px var(--shadow-color-light);
+  background-color: var(--primary-color);
+  color: var(--text-on-primary);
+}
+
+.category-card .ant-card-body {
+  padding: 24px 16px;
+}
+
+.category-icon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+  transition: color 0.3s ease;
+}
+
+.category-card:hover .category-icon {
+  color: var(--text-on-primary);
+}
+
+.category-name {
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 0;
+}
