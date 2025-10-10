@@ -48,7 +48,7 @@ const MainHeader: React.FC = () => {
             <Avatar size="large" icon={<UserOutlined />} />
           ) : (
             <>
-              <Button type="ghost" style={{ marginRight: '10px' }}>Đăng Nhập</Button>
+              <Button  style={{ marginRight: '10px' }}>Đăng Nhập</Button>
               <Button type="primary">Đăng Ký</Button>
             </>
           )}
@@ -74,7 +74,7 @@ const MainHeader: React.FC = () => {
             <Avatar size="large" icon={<UserOutlined />} />
           ) : (
             <>
-              <Button type="ghost" style={{ marginBottom: '10px' }}>Đăng Nhập</Button>
+              <Button style={{ marginBottom: '10px' }}>Đăng Nhập</Button>
               <Button type="primary">Đăng Ký</Button>
             </>
           )}

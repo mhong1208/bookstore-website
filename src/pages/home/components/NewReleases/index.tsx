@@ -15,7 +15,7 @@ const newReleases = [
   { id: 6, title: 'Người đua diều', author: 'Khaled Hosseini', price: '125.000đ', image: 'https://images.unsplash.com/photo-1521587760476-6c12a4b040da?q=80&w=2070&auto=format&fit=crop' },
 ];
 
-const BookCard = ({ book }) => (
+const BookCard = ({ book }: any) => (
   <Card
     hoverable
     className="book-card"
