@@ -1,26 +1,27 @@
-
 import React, { useState } from 'react';
-import { Layout, Menu, Button, Row, Col, Avatar, Drawer, Badge } from 'antd';
+import { Layout, Menu, Button, Row, Col, Avatar, Drawer, Badge, Dropdown, Space } from 'antd'; // <-- THAY ĐỔI: Thêm Dropdown, Space
+import type { MenuProps } from 'antd'; // <-- THAY ĐỔI: Import kiểu MenuProps
 import { Link, useNavigate } from 'react-router-dom';
-import { UserOutlined, MenuOutlined, ShoppingCartOutlined } from '@ant-design/icons';
+import { 
+  UserOutlined, 
+  MenuOutlined, 
+  ShoppingCartOutlined, 
+  DownOutlined // <-- THAY ĐỔI: Thêm icon
+} from '@ant-design/icons';
 import './styles.css';
+import { useAuth } from '../../context/AuthContext';
 
 const { Header } = Layout;
 
-const isLoggedIn = false;
-const cartItemCount = 2; // Placeholder
+const cartItemCount = 2; 
 
 const MainHeader: React.FC = () => {
   const navigate = useNavigate();
   const [drawerVisible, setDrawerVisible] = useState(false);
+  const { user, logout } = useAuth();
 
-  const showDrawer = () => {
-    setDrawerVisible(true);
-  };
-
-  const closeDrawer = () => {
-    setDrawerVisible(false);
-  };
+  const showDrawer = () => setDrawerVisible(true);
+  const closeDrawer = () => setDrawerVisible(false);
 
   const menuItems = (
     <>
@@ -31,6 +32,42 @@ const MainHeader: React.FC = () => {
     </>
   );
 
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
+
+  const adminMenu: MenuProps['items'] = [
+    {
+      key: 'admin_dashboard',
+      label: (
+        <Link to="/admin/dashboard">Trang quản trị</Link>
+      ),
+    },
+    {
+      key: 'logout',
+      label: 'Đăng xuất',
+      onClick: handleLogout,
+      danger: true, 
+    },
+  ];
+
+  const customerMenu: MenuProps['items'] = [
+    {
+      key: 'profile',
+      label: (
+        <Link to="/profile">Tài khoản của tôi</Link>
+      ),
+    },
+    {
+      key: 'logout',
+      label: 'Đăng xuất',
+      onClick: handleLogout,
+      danger: true,
+    },
+  ];
+
+
   const userActions = (
     <>
       <Link to="/cart" style={{ marginRight: '20px' }}>
@@ -38,11 +75,21 @@ const MainHeader: React.FC = () => {
           <ShoppingCartOutlined style={{ fontSize: '24px', color: 'var(--text-color)' }} />
         </Badge>
       </Link>
-      {isLoggedIn ? (
-        <Avatar size="large" icon={<UserOutlined />} />
+
+      {user ? (
+        <Dropdown 
+          menu={{ items: user.role === 'ADMIN' ? adminMenu : customerMenu }} 
+          placement="bottomRight" 
+          arrow
+        >
+          <a onClick={(e) => e.preventDefault()} style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
+            <Avatar size="large" icon={<UserOutlined />} />
+            <DownOutlined style={{ marginLeft: 8, color: 'var(--text-color)' }} />
+          </a>
+        </Dropdown>
       ) : (
         <>
-          <Button  type="default" size="large" style={{ marginRight: '10px' }} onClick={() => navigate('/login')}>Đăng Nhập</Button>
+          <Button type="default" size="large" style={{ marginRight: '10px' }} onClick={() => navigate('/login')}>Đăng Nhập</Button>
           <Button type="primary" size="large" onClick={() => navigate('/register')}>
             Đăng ký
           </Button>
@@ -77,7 +124,7 @@ const MainHeader: React.FC = () => {
         title="Menu"
         placement="right"
         onClose={closeDrawer}
-        visible={drawerVisible}
+        open={drawerVisible}
         className="mobile-drawer"
       >
         <Menu mode="vertical" onClick={closeDrawer}>

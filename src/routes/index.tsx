@@ -1,28 +1,45 @@
+// AppRoutes.tsx
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import MainLayout from '../layouts/MainLayout';
 import HomePage from '../pages/home';
+import PrivateRouteModal from './PrivateRouteModal';
 import ProductDetailPage from '../pages/ProductDetail';
+import LoginPage from '../pages/login';
 import CartPage from '../pages/cart';
 import CheckoutPage from '../pages/checkout';
-import LoginPage from '../pages/login';
-import PrivateRouteModal from './PrivateRouteModal';
+import AdminRoute from './AdminRoute';
+import AdminDashboard from '../pages/admin/dashboard';
+import AdminLayout from '../layouts/AdminLayout';
+import RegisterPage from '../pages/register';
+
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <MainLayout />,
+    element: <MainLayout />, // Layout chung cho khách hàng
     children: [
       { index: true, element: <HomePage /> },
       { path: 'product/:productId', element: <ProductDetailPage /> },
+      { path: 'login', element: <LoginPage /> },
+      { path: 'register', element: <RegisterPage /> },
       {
-        element: <PrivateRouteModal  />,
+        element: <PrivateRouteModal />,
         children: [
           { path: 'cart', element: <CartPage /> },
           { path: 'checkout', element: <CheckoutPage /> },
         ],
       },
-
-      { path: 'login', element: <LoginPage /> },
+    ],
+  },
+  
+   {
+    path: '/admin',
+    element: <AdminLayout />, // Layout chỉ render 1 lần
+    children: [
+      { path: 'dashboard', element: <AdminDashboard /> },
+      // { path: 'products', element: <ProductsPage /> },
+      // { path: 'users', element: <UsersPage /> },
+      // { path: 'orders', element: <OrdersPage /> },
     ],
   },
 ]);

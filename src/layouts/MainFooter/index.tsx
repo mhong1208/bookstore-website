@@ -18,7 +18,6 @@ const MainFooter = () => {
         <Row gutter={[32, 32]}>
           <Col xs={24} sm={24} md={8}>
             <div className="footer-logo">
-              <BookOutlined style={{ fontSize: '28px', marginRight: '8px' }} />
               <Title level={4} className="footer-logo-text">BookStore</Title>
             </div>
             <Text className="footer-text">
