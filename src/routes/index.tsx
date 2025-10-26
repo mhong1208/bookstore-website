@@ -4,34 +4,25 @@ import HomePage from '../pages/home';
 import ProductDetailPage from '../pages/ProductDetail';
 import CartPage from '../pages/cart';
 import CheckoutPage from '../pages/checkout';
+import LoginPage from '../pages/login';
+import PrivateRouteModal from './PrivateRouteModal';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <MainLayout />, // Sử dụng layout chung
+    element: <MainLayout />,
     children: [
+      { index: true, element: <HomePage /> },
+      { path: 'product/:productId', element: <ProductDetailPage /> },
       {
-        index: true, // Trang mặc định khi truy cập '/'
-        element: <HomePage />,
-      },
-      {
-        path: 'product/:productId', 
-        element: <ProductDetailPage />,
-      },
-      {
-        path: 'cart',
-        element: <CartPage />,
-      },
-      {
-        path: 'checkout',
-        element: <CheckoutPage />,
+        element: <PrivateRouteModal  />,
+        children: [
+          { path: 'cart', element: <CartPage /> },
+          { path: 'checkout', element: <CheckoutPage /> },
+        ],
       },
 
-
-      // {
-      //   path: 'about',
-      //   element: <AboutPage />,
-      // },
+      { path: 'login', element: <LoginPage /> },
     ],
   },
 ]);

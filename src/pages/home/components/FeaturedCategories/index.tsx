@@ -15,7 +15,7 @@ const categories = [
 const FeaturedCategories = () => {
   return (
     <div className="featured-categories-section">
-      <h2 className="section-title">Khám Phá Theo Chủ Đề</h2>
+      <h2 className="section-title">Danh mục sách</h2>
       <Row gutter={[24, 24]}>
         {categories.map(category => (
           <Col xs={12} sm={8} md={6} lg={4} key={category.name}>

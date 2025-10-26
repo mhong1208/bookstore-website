@@ -1,0 +1,141 @@
+.blog-section {
+    padding: 50px 5%;
+    background-color: #f9f9f9; 
+}
+
+.blog-section-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.blog-section-title {
+  margin-bottom: 8px !important;
+  font-weight: 700;
+  color: #333;
+}
+
+.blog-section-subtitle {
+  font-size: 1rem;
+  color: #777;
+}
+
+/* ---- Kiểu cho Card ---- */
+.blog-post-card {
+  border: 1px solid #e8e8e8;
+  border-radius: 8px;
+  overflow: hidden; /* Đảm bảo ảnh bo góc */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.3s ease;
+}
+
+.blog-post-card .ant-card-body {
+  padding: 20px;
+}
+
+.blog-post-card:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.blog-post-image {
+  height: 220px;
+  width: 100%;
+  object-fit: cover;
+}
+
+/* ---- Nội dung Card ---- */
+.blog-post-meta-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+
+.blog-post-read-time {
+  font-size: 0.85rem;
+  color: #888;
+}
+
+.blog-post-title {
+  font-size: 16rem;
+  font-weight: 600;
+  margin-bottom: 8px !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  min-height: 2.5em;
+  text-align: left;
+}
+
+.blog-post-title a {
+  color: #333;
+  text-decoration: none;
+  transition: color 0.3s;
+  text-align: left;
+}
+
+.blog-post-title a:hover {
+  color: #2563EB;
+}
+
+.blog-post-excerpt {
+  font-size: 0.9rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  min-height: 4.05em;
+  color: #666;
+  text-align: left;
+}
+
+.blog-post-meta-bottom {
+  margin-top: 16px;
+  margin-bottom: 16px;
+  padding-top: 12px;
+  border-top: 1px solid #f0f0f0;
+  font-size: 0.85rem;
+  color: #888;
+}
+
+.blog-post-read-more {
+  font-weight: 600;
+  color: #2563EB;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.blog-post-read-more:hover {
+  color: #2563EB;
+  transform: translateX(3px);
+}
+
+.blog-post-read-more .anticon {
+  margin-left: 4px;
+}
+
+/* ---- Nút Xem Tất Cả ---- */
+.blog-section-footer {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.view-all-btn {
+  /* Màu xanh cho nút */
+  background-color: #2563EB;
+  border-color: #2563EB;
+  font-weight: 600;
+}
+
+.view-all-btn:hover {
+  background-color: #1e40af ;
+  border-color: #2563EB;
+}
+
+.view-all-btn a {
+  color: #fff;
+  text-decoration: none;
+}

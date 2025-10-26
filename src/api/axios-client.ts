@@ -1,7 +1,6 @@
 import axios from 'axios';
 
-// Lấy URL API từ file biến môi trường .env
-const VITE_API_URL = import.meta.env.VITE_API_URL;
+const VITE_API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
 
 const axiosClient = axios.create({
   baseURL: VITE_API_URL,
@@ -10,7 +9,6 @@ const axiosClient = axios.create({
   },
 });
 
-// Interceptor: Tự động thêm token vào header của mỗi request
 axiosClient.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('accessToken');

@@ -1,8 +1,8 @@
 
-import { Card, Rate, Avatar } from 'antd';
+import { Card, Rate, Avatar, Typography } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import './styles.css';
-
+const { Text } = Typography;
 const reviews = [
   { name: 'Nguyễn Văn A', rating: 5, review: 'Sách chất lượng, giao hàng nhanh. Rất hài lòng với dịch vụ của bookstore!', avatar: '' },
   { name: 'Trần Thị B', rating: 4.5, review: 'Nhiều đầu sách hay và đa dạng. Website dễ sử dụng, sẽ tiếp tục ủng hộ.', avatar: '' },
@@ -12,7 +12,11 @@ const reviews = [
 const CustomerReviews = () => {
   return (
     <div className="customer-reviews-section">
-      <h2 className="section-title">Độc Giả Nói Gì Về Chúng Tôi</h2>
+      <h2 className="section-title"></h2>
+      <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+        <h2 className="section-title" style={{ color: '#fff'}}>Đánh Giá Từ Khách Hàng</h2>
+        <Text type="secondary" style={{ color: '#fff'}}>Nghe những chia sẻ từ những khách hàng thân thiết của chúng tôi</Text>
+      </div>
       <div className="reviews-grid">
         {reviews.map((item, index) => (
           <Card key={index} className="review-card">

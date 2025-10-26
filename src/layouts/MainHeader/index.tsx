@@ -1,17 +1,17 @@
 
 import React, { useState } from 'react';
 import { Layout, Menu, Button, Row, Col, Avatar, Drawer, Badge } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { UserOutlined, MenuOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import './styles.css';
 
 const { Header } = Layout;
 
-// Mock user state
 const isLoggedIn = false;
 const cartItemCount = 2; // Placeholder
 
 const MainHeader: React.FC = () => {
+  const navigate = useNavigate();
   const [drawerVisible, setDrawerVisible] = useState(false);
 
   const showDrawer = () => {
@@ -42,8 +42,10 @@ const MainHeader: React.FC = () => {
         <Avatar size="large" icon={<UserOutlined />} />
       ) : (
         <>
-          <Button style={{ marginRight: '10px' }}>Đăng Nhập</Button>
-          <Button type="primary">Đăng Ký</Button>
+          <Button  type="default" size="large" style={{ marginRight: '10px' }} onClick={() => navigate('/login')}>Đăng Nhập</Button>
+          <Button type="primary" size="large" onClick={() => navigate('/register')}>
+            Đăng ký
+          </Button>
         </>
       )}
     </>
@@ -51,7 +53,7 @@ const MainHeader: React.FC = () => {
 
   return (
     <Header className="main-header">
-      <Row justify="space-between" align="middle" style={{ height: '100%' }}>
+      <Row justify="space-between" align="middle" wrap={false} style={{ height: '100%' }}>
         <Col className="logo">
           <Link to="/">Bookstore</Link>
         </Col>

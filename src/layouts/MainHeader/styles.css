@@ -1,65 +1,124 @@
+/* ==== Tổng thể Header ==== */
 
+.ant-layout .ant-layout-header{
+  padding: 0 60px !important;
+}
 .main-header {
-  background: var(--bg-white) !important;
-  border-bottom: 1px solid var(--border-color);
-  padding: 0 24px !important;
+  background-color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  padding: 0 40px;
   position: sticky;
   top: 0;
   z-index: 1000;
-  height: 64px;
-}
-
-.logo {
-  font-size: 1.5rem;
-  font-weight: bold;
+  padding: 0 40px;
+  transition: all 0.3s ease;
 }
 
 .logo a {
-  color: var(--text-primary);
+  font-size: 24px;
+  font-weight: 700;
+  color: #1890ff;
+  text-decoration: none;
+  transition: color 0.3s ease;
 }
 
-.desktop-menu {
-  flex: 1;
-  display: flex;
-  justify-content: center;
+.logo a:hover {
+  color: #40a9ff;
 }
 
+/* ==== Menu chính (desktop) ==== */
 .desktop-menu .ant-menu {
-  border-bottom: none;
+  border: none;
   background: transparent;
+  font-size: 16px;
 }
 
-.user-actions button {
+.desktop-menu .ant-menu-item {
+  margin: 0 10px;
+}
+
+.desktop-menu .ant-menu-item a {
+  color: #333;
+  transition: color 0.3s ease;
+}
+
+.desktop-menu .ant-menu-item a:hover {
+  color: #1890ff;
+}
+
+/* ==== User actions ==== */
+.user-actions {
+  display: flex;
+  align-items: center;
+}
+
+.user-actions .ant-btn {
   border-radius: 6px;
+  font-weight: 500;
+  transition: all 0.3s ease;
 }
 
+.user-actions .ant-btn:hover {
+  transform: translateY(-1px);
+}
+
+.user-actions .ant-avatar {
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.user-actions .ant-avatar:hover {
+  transform: scale(1.05);
+}
+
+/* ==== Mobile icon ==== */
 .mobile-menu-icon {
-  display: none; /* Hidden by default */
+  display: none;
 }
 
-/* Responsive Styles */
-@media (max-width: 992px) {
-  .desktop-menu,
-  .user-actions {
-    display: none; /* Hide desktop elements on smaller screens */
-  }
-
-  .mobile-menu-icon {
-    display: block; /* Show hamburger icon */
-  }
-}
-
+/* ==== Drawer (Mobile) ==== */
 .mobile-drawer .ant-drawer-body {
-  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .mobile-drawer-actions {
-  padding: 24px;
-  border-top: 1px solid var(--border-color);
   display: flex;
   flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
 }
 
 .mobile-drawer-actions .ant-btn {
   width: 100%;
+}
+
+/* ==== Badge giỏ hàng ==== */
+.ant-badge-count {
+  background-color: #ff4d4f;
+  font-size: 12px;
+}
+
+/* ==== Responsive ==== */
+@media (max-width: 992px) {
+  .desktop-menu {
+    display: none;
+  }
+
+  .mobile-menu-icon {
+    display: block;
+  }
+
+  .user-actions {
+    display: none;
+  }
+
+  .main-header {
+    padding: 0 20px;
+  }
+
+  .logo a {
+    font-size: 20px;
+  }
 }
