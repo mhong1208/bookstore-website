@@ -1,11 +1,12 @@
 .cart-page-container {
     padding: 40px 0;
+    color: var(--text-primary);
   }
   
   .cart-page-title {
     margin-bottom: 32px !important;
     text-align: center;
-    color: var(--dark-blue);
+    color: var(--color-primary-600);
   }
   
   .summary-row {

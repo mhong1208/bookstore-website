@@ -1,23 +1,134 @@
 :root {
-  /* Brand Colors */
-  --primary-color: #2563EB; /* Xanh chủ đạo */
-  --primary-color-dark: #1E3A8A; /* Xanh đậm */
-  --primary-color-light: #EFF6FF; /* Xanh nhạt */
+  /* ------------------------------------------------------------------ */
+  /* Color scales (multiple shades for each semantic color)              */
+  /* Use --color-<name>-<scale> (50..900) for precise shades           */
+  /* ------------------------------------------------------------------ */
 
-  /* Background Colors */
-  --bg-white: #FFFFFF; /* Nền chính */
+  /* Primary (blue) */
+  --color-primary-50:  #eff6ff;
+  --color-primary-100: #dbeafe;
+  --color-primary-200: #bfdbfe;
+  --color-primary-300: #93c5fd;
+  --color-primary-400: #60a5fa;
+  --color-primary-500: #3b82f6;
+  --color-primary-600: #2563eb; /* hiện đang dùng */
+  --color-primary-700: #1d4ed8;
+  --color-primary-800: #1e40af;
+  --color-primary-900: #1e3a8a;
 
-  /* Text Colors */
-  --text-primary: #111827; /* Màu chữ chính */
-  --text-secondary: #6B7280; /* Màu chữ phụ */
-  --text-on-primary: #FFFFFF;
+  /* Secondary (emerald/green) */
+  --color-secondary-50:  #ecfdf5;
+  --color-secondary-100: #d1fae5;
+  --color-secondary-200: #a7f3d0;
+  --color-secondary-300: #6ee7b7;
+  --color-secondary-400: #34d399;
+  --color-secondary-500: #10b981;
+  --color-secondary-600: #059669;
+  --color-secondary-700: #047857;
+  --color-secondary-800: #065f46;
+  --color-secondary-900: #064e3b;
 
-  /* Action & Status Colors */
-  --danger-color: #D9534F;
-  --price-color: #d72828;
+  /* Accent (indigo) */
+  --color-accent-50:  #eef2ff;
+  --color-accent-100: #e0e7ff;
+  --color-accent-200: #c7d2fe;
+  --color-accent-300: #a5b4fc;
+  --color-accent-400: #818cf8;
+  --color-accent-500: #6366f1;
+  --color-accent-600: #4f46e5;
+  --color-accent-700: #4338ca;
+  --color-accent-800: #3730a3;
+  --color-accent-900: #312e81;
 
-  /* Border & Shadow */
-  --border-color: #6B7280;
-  --shadow-color-light: rgba(0, 0, 0, 0.05);
-  --shadow-color-medium: rgba(0, 0, 0, 0.1);
+  /* Neutral / Grays */
+  --color-gray-50:  #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280; /* used previously */
+  --color-gray-600: #4b5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1f2937;
+  --color-gray-900: #111827;
+
+  /* Status colors */
+  --color-success-50:  #ecfdf5;
+  --color-success-100: #d1fae5;
+  --color-success-500: #10b981;
+  --color-success-700: #047857;
+
+  --color-danger-50:  #fff1f2;
+  --color-danger-100: #ffe4e6;
+  --color-danger-500: #ef4444;
+  --color-danger-700: #b91c1c;
+
+  --color-warning-50:  #fffbeb;
+  --color-warning-100: #fef3c7;
+  --color-warning-500: #f59e0b;
+  --color-warning-700: #b45309;
+
+  --color-info-50:  #eef2ff;
+  --color-info-100: #e0e7ff;
+  --color-info-500: #3b82f6;
+
+  /* ------------------------------------------------------------------ */
+  /* Semantic tokens (map the scales to meaningful names used across app) */
+  /* Use these in components: var(--primary), var(--bg), var(--muted) etc. */
+  /* ------------------------------------------------------------------ */
+
+  /* Brand / core */
+  --primary-color: var(--color-primary-600);
+  --primary-color-hover: var(--color-primary-700);
+  --primary-color-active: var(--color-primary-800);
+  --primary-color-contrast: var(--color-primary-50);
+
+  --secondary-color: var(--color-secondary-500);
+  --secondary-color-hover: var(--color-secondary-600);
+
+  --accent-color: var(--color-accent-500);
+
+  /* Backgrounds & surfaces */
+  --bg: var(--color-gray-50);
+  --bg-surface: var(--color-gray-100);
+  --card-bg: #ffffff;
+  --muted-bg: var(--color-gray-200);
+
+  /* Text */
+  --text-primary: var(--color-gray-900);
+  --text-secondary: var(--color-gray-500);
+  --text-muted: var(--color-gray-400);
+  --text-on-primary: #ffffff;
+
+  /* Actions / state */
+  --success-color: var(--color-success-500);
+  --danger-color: var(--color-danger-500);
+  --warning-color: var(--color-warning-500);
+  --info-color: var(--color-info-500);
+
+  /* Borders & shadows */
+  --border-color: var(--color-gray-300);
+  --border-strong: var(--color-gray-400);
+  --shadow-color-light: rgba(2,6,23,0.06);
+  --shadow-color-medium: rgba(2,6,23,0.12);
+
+  /* Controls */
+  --link-color: var(--primary-color);
+  --disabled-bg: var(--color-gray-200);
+  --disabled-text: var(--color-gray-400);
+
+  /* Special / e-commerce */
+  --price-color: #d72828; /* keep existing price color */
+
+  /* Accessibility helpers */
+  --focus-ring: 3px solid rgba(59,130,246,0.25);
+
+  /* ------------------------------------------------------------------ */
+  /* Backwards-compatible aliases (keep old variable names working)      */
+  /* ------------------------------------------------------------------ */
+  --bg-white: var(--bg);
+  --primary-color-dark: var(--color-primary-900);
+  --primary-color-light: var(--color-primary-50);
+  --shadow-color: var(--shadow-color-medium);
+  --border-color-legacy: var(--border-color);
 }
