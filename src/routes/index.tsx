@@ -7,7 +7,6 @@ import ProductDetailPage from '../pages/ProductDetail';
 import LoginPage from '../pages/login';
 import CartPage from '../pages/cart';
 import CheckoutPage from '../pages/checkout';
-import AdminRoute from './AdminRoute';
 import AdminDashboard from '../pages/admin/dashboard';
 import AdminLayout from '../layouts/AdminLayout';
 import RegisterPage from '../pages/register';
@@ -20,7 +19,7 @@ const router = createBrowserRouter([
     element: <MainLayout />, // Layout chung cho khách hàng
     children: [
       { index: true, element: <HomePage /> },
-      { path: 'product/:productId', element: <ProductDetailPage /> },
+      { path: 'product/:id', element: <ProductDetailPage /> },
       { path: 'login', element: <LoginPage /> },
       { path: 'products', element: <ShopPage /> },
       { path: 'register', element: <RegisterPage /> },

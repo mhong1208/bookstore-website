@@ -53,7 +53,7 @@
 }
 
 .book-price {
-  margin-top: 10px;
+  margin-bottom: 5px;
   font-weight: bold;
   color: var(--price-color, #d32f2f);
   font-size: 1.1rem;

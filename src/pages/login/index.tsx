@@ -12,7 +12,7 @@ const LoginPage: React.FC = () => {
       notification.success(res.message || 'Đăng nhập thành công!');  
       navigate('/');    
     } catch (err: any) {
-      notification.error(err.message || 'Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.');
+      notification.error(err.data.message || 'Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.');
     }
   };
   return (

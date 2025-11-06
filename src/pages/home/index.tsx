@@ -9,7 +9,7 @@ import useProducts from './hooks/useListProduct';
 import BlogSection from './components/Blogs';
 
 const HomePage: React.FC = () => {
-  const { products } = useProducts(1, 10);
+  const { products } = useProducts(1, 8);
   return (
     <div>
       <HeroBanner />

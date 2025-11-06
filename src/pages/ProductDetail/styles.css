@@ -1,5 +1,6 @@
 
 .product-detail-page {
+  text-align: left;
   padding: 40px 5%;
   background-color: var(--bg-white);
 }

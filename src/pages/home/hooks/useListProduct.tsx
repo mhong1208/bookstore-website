@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { message } from "antd";
 import { productService } from "../../../api/product.service";
 
-const useProducts = (pageIndex = 1, pageSize = 10) => {
+const useProducts = (pageIndex: number, pageSize: number) => {
   const [products, setProducts] = useState([]);
   const [total, setTotal] = useState(0); // tổng số sản phẩm
   const [loading, setLoading] = useState(false);

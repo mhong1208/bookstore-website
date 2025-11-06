@@ -1,34 +1,13 @@
 
-import { Card, Carousel, Button, Typography } from 'antd';
-import { ShoppingCartOutlined } from '@ant-design/icons';
+import {  Carousel, Button, Typography } from 'antd';
 import './styles.css';
 import { useNavigate } from 'react-router-dom';
+import BookCard from '../../../../components/ProductCard';
 
-const { Meta } = Card;
 const { Text } = Typography;
  interface BestSellersProps {
   data: any[];
  }
-
-const BookCard = ({ book, onClick }: any) => (
-  <Card
-    hoverable
-    className="book-card"
-    cover={<img alt={book.title} src={book.image} className="book-cover-img" />}
-    actions={[
-      <Button type="primary" size="large" icon={<ShoppingCartOutlined />} className="add-to-cart-btn">
-        Thêm vào giỏ
-      </Button>
-    ]}
-    onClick={onClick}
-  >
-    <Meta title={book.title} description={book.author} />
-    <div className="book-price">
-      <span className="current-price">{book.price}</span>
-      {book.oldPrice && <span className="old-price">{book.oldPrice}</span>}
-    </div>
-  </Card>
-);
 
 const BestSellers = ({ data }: BestSellersProps) => {
   const navigate = useNavigate();
