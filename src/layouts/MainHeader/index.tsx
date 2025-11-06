@@ -10,15 +10,16 @@ import {
 } from '@ant-design/icons';
 import './styles.css';
 import { useAuth } from '../../context/AuthContext';
+import { useSelector } from 'react-redux';
+import { selectCartTotalItems } from '../../redux/cartSlice';
 
 const { Header } = Layout;
-
-const cartItemCount = 2; 
 
 const MainHeader: React.FC = () => {
   const navigate = useNavigate();
   const [drawerVisible, setDrawerVisible] = useState(false);
   const { user, logout } = useAuth();
+  const cartItemCount = useSelector(selectCartTotalItems);
 
   const showDrawer = () => setDrawerVisible(true);
   const closeDrawer = () => setDrawerVisible(false);

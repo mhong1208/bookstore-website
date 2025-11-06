@@ -11,6 +11,7 @@ import AdminRoute from './AdminRoute';
 import AdminDashboard from '../pages/admin/dashboard';
 import AdminLayout from '../layouts/AdminLayout';
 import RegisterPage from '../pages/register';
+import ShopPage from '../pages/shop';
 
 
 const router = createBrowserRouter([
@@ -21,6 +22,7 @@ const router = createBrowserRouter([
       { index: true, element: <HomePage /> },
       { path: 'product/:productId', element: <ProductDetailPage /> },
       { path: 'login', element: <LoginPage /> },
+      { path: 'products', element: <ShopPage /> },
       { path: 'register', element: <RegisterPage /> },
       {
         element: <PrivateRouteModal />,

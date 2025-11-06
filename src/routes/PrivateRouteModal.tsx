@@ -4,7 +4,7 @@ import AuthModal from '../components/Modals/auth-modal';
 
 const PrivateRouteModal: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem('authToken');
 
   useEffect(() => {
     if (!token) {
