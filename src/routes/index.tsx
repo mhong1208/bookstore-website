@@ -15,6 +15,7 @@ import CategoryManagementPage from '../pages/admin/category';
 import ProductManagementPage from '../pages/admin/product';
 import VoucherManagementPage from '../pages/admin/voucher';
 import UserManagementPage from '../pages/admin/user';
+import OrderManagementPage from '../pages/admin/order';
 
 
 const router = createBrowserRouter([
@@ -46,7 +47,7 @@ const router = createBrowserRouter([
       { path: 'products', element: <ProductManagementPage /> },
       { path: 'vouchers', element: <VoucherManagementPage /> },
       { path: 'users', element: <UserManagementPage /> },
-      // { path: 'orders', element: <OrdersPage /> },
+      { path: 'orders', element: <OrderManagementPage /> },
     ],
   },
 ]);

@@ -27,7 +27,7 @@ const ProductDetailPage: React.FC = () => {
       id: String(product.id),
       title: product.title,
       price: Number(product.price) || 0,
-      image: product.coverImage || ''
+      coverImage: product.coverImage || ''
     }));
   };
 

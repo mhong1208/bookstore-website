@@ -1,37 +1,66 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { message } from "antd";
 import { productService } from "../../../api/product.service";
 
 const useProducts = (pageIndex: number, pageSize: number) => {
-  const [products, setProducts] = useState([]);
-  const [total, setTotal] = useState(0); // tổng số sản phẩm
+  const [products, setProducts] = useState<any[]>([]);
+  const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-
-  const fetchProducts = async (pageIndex: number, pageSize: number) => {
-    try {
-      setLoading(true);
-      setError(null);
-
-      const response = await productService.getAll({
-        pageSize,
-        pageIndex,
-      });
-
-      setProducts(response.data); 
-      setTotal(response.data.total || response.data.length);
-    } catch (error) {
-      message.error("Lỗi khi tải danh sách sản phẩm");
-    } finally {
-      setLoading(false);
-    }
-  };
+  const [error, setError] = useState<any>(null);
 
   useEffect(() => {
-    fetchProducts(pageIndex, pageSize);
+    const fetchProductsData = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const response = await productService.getAll({
+          pageSize,
+          pageIndex,
+        });
+
+        const items = response?.data?.items || response?.data || response || [];
+        const totalItems = response?.data?.total ?? items?.length ?? 0;
+
+        setProducts(items);
+        setTotal(totalItems);
+      } catch (err) {
+        setError(err);
+        message.error("Lỗi khi tải danh sách sản phẩm");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProductsData();
   }, [pageIndex, pageSize]);
 
-  return { products, total, loading, error, refetch: fetchProducts };
+  const refetch = useCallback(() => {
+    const fetchProductsData = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const response = await productService.getAll({
+          pageSize,
+          pageIndex,
+        });
+
+        const items = response?.data?.items || response?.data || response || [];
+        const totalItems = response?.data?.total ?? items?.length ?? 0;
+
+        setProducts(items);
+        setTotal(totalItems);
+      } catch (err) {
+        setError(err);
+        message.error("Lỗi khi tải danh sách sản phẩm");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProductsData();
+  }, [pageIndex, pageSize]);
+
+  return { products, total, loading, error, refetch };
 };
 
 export default useProducts;

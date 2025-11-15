@@ -19,7 +19,7 @@ const BookCard = ({ book }: any) => {
             id: String(id),
             title: book.title,
             price: Number(book.price) || 0,
-            image: book.image || image,
+            coverImage: book.coverImage,
         };
 
         dispatch(addToCart(payload));

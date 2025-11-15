@@ -1,16 +1,21 @@
-
-import { Row, Col, Card, Form, Input, Radio, Button, Typography, Space, Avatar, Modal, Badge } from 'antd';
-import { BankOutlined, CreditCardOutlined, MoneyCollectOutlined } from '@ant-design/icons';
+import { Row, Col, Card, Form, Input, Radio, Button, Typography, Space, Avatar, Modal, Badge, Result } from 'antd';
+import { BankOutlined, CreditCardOutlined, MoneyCollectOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+
 import './styles.css';
+import { useAuth } from '../../context/AuthContext';
+import { clearCart, selectCartItems, selectCartTotalPrice } from '../../redux/cartSlice';
+import { Link } from 'react-router-dom';
+import orderService from '../../api/order.service';
 
 const { Title, Text } = Typography;
 
-// Placeholder data
-const orderItems = [
-  { id: 1, name: 'Lược sử loài người', quantity: 1, price: 150000, image: 'https://images.unsplash.com/photo-1589998059171-988d887df646?q=80&w=2070&auto=format&fit=crop' },
-  { id: 2, name: 'Nhà giả kim', quantity: 2, price: 80000, image: 'https://images.unsplash.com/photo-1592496431122-2349e0fbc666?q=80&w=1887&auto=format&fit=crop' },
-];
+const SHIPPING_FEES = {
+  standard: 15000,
+  express: 30000,
+};
 
 const formatPrice = (price: number) => {
   return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
@@ -19,21 +24,86 @@ const formatPrice = (price: number) => {
 const CheckoutPage = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { user } = useAuth();
 
-  const handleOrderComplete = (values: any) => {
-    console.log('Form Values:', values);
-    Modal.success({
-      title: 'Đặt hàng thành công!',
-      content: 'Cảm ơn bạn đã mua hàng. Chúng tôi sẽ xử lý đơn hàng của bạn sớm nhất.',
-      onOk() {
-        navigate('/');
+  const cartItems = useSelector(selectCartItems);
+  const subtotal = useSelector(selectCartTotalPrice);
+
+  const [shippingMethod, setShippingMethod] = useState('standard');
+  const shippingFee = SHIPPING_FEES[shippingMethod as keyof typeof SHIPPING_FEES];
+  const total = subtotal + shippingFee;
+
+  useEffect(() => {
+    if (user) {
+      form.setFieldsValue({
+        fullName: user.name,
+        email: user.email,
+      });
+    }
+  }, [user, form]);
+
+  const handleOrderComplete = async (values: any) => {
+    if (!user) {
+      Modal.error({
+        title: 'Lỗi',
+        content: 'Vui lòng đăng nhập để hoàn tất đơn hàng.',
+      });
+      return;
+    }
+
+    const orderData = {
+      user: user.id,
+      orderItems: cartItems.map(item => ({
+        book: item.id,
+        quantity: item.quantity,
+        price: item.price,
+        title: item.title,
+        image: item.coverImage
+      })),
+      shippingAddress: {
+        address: values.address,
+        city: 'Default City', // You might want to add city, postalCode, country fields to your form
+        postalCode: '00000',
+        country: 'Vietnam',
       },
-    });
+      paymentMethod: values.paymentMethod,
+      shippingMethod: values.shippingMethod,
+      notes: values.notes,
+      subtotal,
+      totalPrice: total,
+    };
+
+    try {
+      await orderService.createOrder(orderData);
+      dispatch(clearCart());
+      Modal.success({
+        title: 'Đặt hàng thành công!',
+        content: 'Cảm ơn bạn đã mua hàng. Chúng tôi sẽ xử lý đơn hàng của bạn sớm nhất.',
+        onOk() {
+          navigate('/');
+        },
+      });
+    } catch (error) {
+      console.error('Failed to create order:', error);
+      Modal.error({
+        title: 'Đặt hàng thất bại',
+        content: 'Đã có lỗi xảy ra. Vui lòng thử lại.',
+      });
+    }
   };
 
-  const subtotal = orderItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const shippingFee = 15000; // Placeholder
-  const total = subtotal + shippingFee;
+  if (cartItems.length === 0) {
+    return (
+        <div className="checkout-page-container">
+            <Result
+                icon={<ShoppingCartOutlined />}
+                title="Giỏ hàng của bạn đang trống"
+                extra={<Link to="/shop"><Button type="primary">Bắt đầu mua sắm</Button></Link>}
+            />
+        </div>
+    )
+  }
 
   return (
     <div className="checkout-page-container">
@@ -61,24 +131,27 @@ const CheckoutPage = () => {
               <Form.Item name="address" label="Địa chỉ" rules={[{ required: true, message: 'Vui lòng nhập địa chỉ' }]}>
                 <Input.TextArea rows={3} />
               </Form.Item>
+              <Form.Item name="notes" label="Ghi chú">
+                <Input.TextArea rows={2} placeholder="Ghi chú cho người bán..." />
+              </Form.Item>
             </Card>
 
             <Card title="Phương thức vận chuyển" className="checkout-card">
               <Form.Item name="shippingMethod" initialValue="standard">
-                <Radio.Group>
+                <Radio.Group onChange={(e) => setShippingMethod(e.target.value)}>
                   <Radio value="standard" className="radio-option">
                     <div>
                       <Text strong>Giao hàng tiêu chuẩn</Text>
                       <Text type="secondary" style={{ display: 'block' }}>Dự kiến 3-5 ngày</Text>
                     </div>
-                    <Text strong>{formatPrice(shippingFee)}</Text>
+                    <Text strong>{formatPrice(SHIPPING_FEES.standard)}</Text>
                   </Radio>
                   <Radio value="express" className="radio-option">
                     <div>
                       <Text strong>Giao hàng nhanh</Text>
                       <Text type="secondary" style={{ display: 'block' }}>Dự kiến 1-2 ngày</Text>
                     </div>
-                    <Text strong>{formatPrice(30000)}</Text>
+                    <Text strong>{formatPrice(SHIPPING_FEES.express)}</Text>
                   </Radio>
                 </Radio.Group>
               </Form.Item>
@@ -90,11 +163,11 @@ const CheckoutPage = () => {
                   <Radio value="cod" className="radio-option-payment">
                     <MoneyCollectOutlined /> Thanh toán khi nhận hàng (COD)
                   </Radio>
-                  <Radio value="bank" className="radio-option-payment">
-                    <BankOutlined /> Chuyển khoản ngân hàng
+                  <Radio value="bank" className="radio-option-payment" disabled>
+                    <BankOutlined /> Chuyển khoản ngân hàng (Bảo trì)
                   </Radio>
-                  <Radio value="wallet" className="radio-option-payment">
-                    <CreditCardOutlined /> Ví điện tử
+                  <Radio value="wallet" className="radio-option-payment" disabled>
+                    <CreditCardOutlined /> Ví điện tử (Bảo trì)
                   </Radio>
                 </Radio.Group>
               </Form.Item>
@@ -104,14 +177,14 @@ const CheckoutPage = () => {
           {/* Right Column: Order Summary */}
           <Col xs={24} lg={10}>
             <Card title="Tóm tắt đơn hàng" className="summary-card">
-              {orderItems.map(item => (
+              {cartItems.map(item => (
                 <div key={item.id} className="summary-item">
                   <Space align="start">
                     <Badge count={item.quantity}>
-                      <Avatar shape="square" src={item.image} size={64} />
+                      <Avatar shape="square" src={item.coverImage} size={64} />
                     </Badge>
                     <div className="item-details">
-                      <Text strong>{item.name}</Text>
+                      <Text strong>{item.title}</Text>
                       <Text type="secondary">{formatPrice(item.price)}</Text>
                     </div>
                   </Space>
@@ -130,7 +203,7 @@ const CheckoutPage = () => {
                 <Text strong>Tổng cộng</Text>
                 <Text strong className="total-price">{formatPrice(total)}</Text>
               </div>
-              <Button type="primary" htmlType="submit" size="large" block className="complete-order-btn">
+              <Button type="primary" htmlType="submit" size="large" block className="complete-order-btn" disabled={cartItems.length === 0}>
                 Hoàn tất đơn hàng
               </Button>
             </Card>

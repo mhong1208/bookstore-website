@@ -1,13 +1,12 @@
-
-import {  Carousel, Button, Typography } from 'antd';
-import './styles.css';
+import { Row, Col, Button, Typography } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import BookCard from '../../../../components/ProductCard';
 
 const { Text } = Typography;
- interface BestSellersProps {
+
+interface BestSellersProps {
   data: any[];
- }
+}
 
 const BestSellers = ({ data }: BestSellersProps) => {
   const navigate = useNavigate();
@@ -22,23 +21,17 @@ const BestSellers = ({ data }: BestSellersProps) => {
         <h2 className="section-title">Sách Bán Chạy Nhất Tuần</h2>
         <Text type="secondary">Những cuốn sách được yêu thích nhất của chúng tôi</Text>
       </div>
-      <Carousel
-        slidesToShow={4}
-        slidesToScroll={4}
-        dots={false}
-        arrows={true}
-        responsive={[
-          { breakpoint: 1200, settings: { slidesToShow: 3, slidesToScroll: 3 } },
-          { breakpoint: 992, settings: { slidesToShow: 2, slidesToScroll: 2 } },
-          { breakpoint: 576, settings: { slidesToShow: 1, slidesToScroll: 1 } },
-        ]}
-      >
-        {data?.map((book: any) => (
-          <div key={book.id} className="carousel-item-padding">
+
+      <Row gutter={[16, 16]}>
+        {data.map((book) => (
+          <Col 
+            key={book.id} 
+            xs={24} sm={12} md={8} lg={6} // responsive
+          >
             <BookCard book={book} onClick={() => handleNavigate(book.id)} />
-          </div>
+          </Col>
         ))}
-      </Carousel>
+      </Row>
 
       <div style={{ textAlign: 'center', marginTop: '30px' }}>
         <Button type="primary" size="large" onClick={() => navigate('/products')}>

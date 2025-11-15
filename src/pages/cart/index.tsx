@@ -1,7 +1,6 @@
 import { Table, Button, Input, Space, Typography, Row, Col, Card, InputNumber } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
-import './styles.css';
 import { useDispatch, useSelector } from 'react-redux';
 import type { CartItem } from '../../redux/cartSlice';
 import {
@@ -10,9 +9,21 @@ import {
   selectCartTotalPrice,
   updateQuantity,
 } from '../../redux/cartSlice';
+import './styles.css';
 
 const { Title, Text } = Typography;
 
+// Chuyển SVG URI sang base64 để đảm bảo hiển thị
+const getImageSrc = (svgData: string) => {
+  if (svgData.startsWith('data:image/svg+xml,')) {
+    const svgContent = svgData.replace(/^data:image\/svg\+xml,/, '');
+    const base64 = btoa(decodeURIComponent(svgContent));
+    return `data:image/svg+xml;base64,${base64}`;
+  }
+  return svgData; // fallback
+};
+
+// Format tiền VND
 const formatPrice = (price: number) => {
   return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
 };
@@ -42,7 +53,11 @@ const CartPage = () => {
       key: 'product',
       render: (_: any, record: CartItem) => (
         <Space>
-          <img src={record.image} alt={record.title} style={{ width: 60, height: 90, objectFit: 'cover' }} />
+          <img
+            src={getImageSrc(record.coverImage)}
+            alt={record.title}
+            style={{ width: 60, height: 90, objectFit: 'cover' }}
+          />
           <Text>{record.title}</Text>
         </Space>
       ),
@@ -69,26 +84,43 @@ const CartPage = () => {
     {
       title: 'Tạm tính',
       key: 'total',
-      render: (_: any, record: CartItem) => <Text>{formatPrice(record.price * record.quantity)}</Text>,
+      render: (_: any, record: CartItem) => (
+        <Text>{formatPrice(record.price * record.quantity)}</Text>
+      ),
     },
     {
       title: 'Xóa',
       key: 'action',
       render: (_: any, record: CartItem) => (
-        <Button type="text" danger icon={<DeleteOutlined />} onClick={() => handleRemove(record.id)} />
+        <Button
+          type="text"
+          danger
+          icon={<DeleteOutlined />}
+          onClick={() => handleRemove(record.id)}
+        />
       ),
     },
   ];
 
-  const shipping = 0; // Placeholder
+  const shipping = 0; // Placeholder phí vận chuyển
 
   return (
     <div className="cart-page-container">
-      <Title level={2} className="cart-page-title">Giỏ Hàng Của Bạn</Title>
+      <Title level={2} className="cart-page-title">
+        Giỏ Hàng Của Bạn
+      </Title>
       <Row gutter={[32, 32]}>
+        {/* Bảng giỏ hàng */}
         <Col xs={24} lg={16}>
-          <Table columns={columns} dataSource={cartItems} pagination={false} rowKey="id" />
+          <Table
+            columns={columns}
+            dataSource={cartItems}
+            pagination={false}
+            rowKey="id"
+          />
         </Col>
+
+        {/* Tổng kết đơn hàng */}
         <Col xs={24} lg={8}>
           <Card title="Tổng Kết Đơn Hàng">
             <div className="summary-row">
@@ -103,16 +135,31 @@ const CartPage = () => {
               <Text strong>Tổng cộng</Text>
               <Text strong>{formatPrice(totalPrice + shipping)}</Text>
             </div>
+
             <Input.Search
               placeholder="Nhập mã giảm giá"
               enterButton="Áp dụng"
               size="large"
               className="coupon-input"
             />
-            <Button type="primary" size="large" block className="checkout-btn" onClick={handleCheckout}>
+
+            <Button
+              type="primary"
+              size="large"
+              block
+              className="checkout-btn"
+              onClick={handleCheckout}
+              style={{ marginTop: 16 }}
+            >
               Tiến hành thanh toán
             </Button>
-            <Button type="link" block className="continue-shopping-btn" onClick={() => navigate('/')}>
+
+            <Button
+              type="link"
+              block
+              className="continue-shopping-btn"
+              onClick={() => navigate('/')}
+            >
               Tiếp tục mua sắm
             </Button>
           </Card>
