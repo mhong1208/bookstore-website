@@ -11,6 +11,10 @@ import AdminDashboard from '../pages/admin/dashboard';
 import AdminLayout from '../layouts/AdminLayout';
 import RegisterPage from '../pages/register';
 import ShopPage from '../pages/shop';
+import CategoryManagementPage from '../pages/admin/category';
+import ProductManagementPage from '../pages/admin/product';
+import VoucherManagementPage from '../pages/admin/voucher';
+import UserManagementPage from '../pages/admin/user';
 
 
 const router = createBrowserRouter([
@@ -38,8 +42,10 @@ const router = createBrowserRouter([
     element: <AdminLayout />, // Layout chỉ render 1 lần
     children: [
       { path: 'dashboard', element: <AdminDashboard /> },
-      // { path: 'products', element: <ProductsPage /> },
-      // { path: 'users', element: <UsersPage /> },
+      { path: 'categories', element: <CategoryManagementPage /> },
+      { path: 'products', element: <ProductManagementPage /> },
+      { path: 'vouchers', element: <VoucherManagementPage /> },
+      { path: 'users', element: <UserManagementPage /> },
       // { path: 'orders', element: <OrdersPage /> },
     ],
   },

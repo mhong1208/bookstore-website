@@ -8,10 +8,16 @@ const RegisterPage: React.FC = () => {
   const handleSubmit = async (data: any) => {
     try {
       const res = await register(data); 
-      notification.success(res.message || 'Đăng ký thành công!');  
-      navigate('/');    
+      notification.success({
+        message: 'Thành công',
+        description: res.message || 'Đăng ký thành công! Vui lòng đăng nhập.',
+      });
+      navigate('/login');    
     } catch (err: any) {
-      notification.error(err.message || 'Đăng ký thất bại. Vui lòng kiểm tra lại thông tin.');
+      notification.error({
+        message: 'Lỗi',
+        description: err?.response?.data?.message || 'Đăng ký thất bại. Vui lòng kiểm tra lại thông tin.',
+      });
     }
   };
   return (

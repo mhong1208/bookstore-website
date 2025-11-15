@@ -9,10 +9,16 @@ const LoginPage: React.FC = () => {
   const handleSubmit = async (data: any) => {
     try {
       const res = await login(data); 
-      notification.success(res.message || 'Đăng nhập thành công!');  
+      notification.success({
+        message: 'Thành công',
+        description: res.message || 'Đăng nhập thành công!',
+      });
       navigate('/');    
     } catch (err: any) {
-      notification.error(err.data.message || 'Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.');
+      notification.error({
+        message: 'Lỗi',
+        description: err?.response?.data?.message || 'Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.',
+      });
     }
   };
   return (

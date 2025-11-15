@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Row, Col, Image, Typography, Rate, Button, InputNumber, Tabs, Card, Tag } from 'antd';
+import { Row, Col,  Typography, Rate, Button, InputNumber, Tabs, Tag } from 'antd';
 import { HeartOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../../redux/cartSlice';

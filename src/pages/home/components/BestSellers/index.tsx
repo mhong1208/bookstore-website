@@ -33,7 +33,7 @@ const BestSellers = ({ data }: BestSellersProps) => {
           { breakpoint: 576, settings: { slidesToShow: 1, slidesToScroll: 1 } },
         ]}
       >
-        {data.map((book: any) => (
+        {data?.map((book: any) => (
           <div key={book.id} className="carousel-item-padding">
             <BookCard book={book} onClick={() => handleNavigate(book.id)} />
           </div>
