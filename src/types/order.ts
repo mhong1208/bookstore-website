@@ -1,20 +1,12 @@
-import type { IUser } from "./user";
 import type { IVoucher } from "./voucher";
 
 export type OrderStatus = 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
 
-export interface IShippingAddress {
-  address: string;
-  city: string;
-  postalCode: string;
-  country: string;
-}
-
 export interface IOrder {
   _id: string;
-  user: string | IUser;
+  user: any;
   orderItems: string[] | any[];
-  shippingAddress: IShippingAddress;
+  shippingAddress: string;
   subtotal: number;
   discountAmount: number;
   totalPrice: number;
@@ -25,4 +17,6 @@ export interface IOrder {
   notes?: string;
   createdAt: string;
   updatedAt: string;
+  shippingMethod: string
+
 }

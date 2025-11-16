@@ -17,6 +17,7 @@ import orderService from '../../../api/order.service';
 import type { IOrder, OrderStatus } from '../../../types/order';
 import { formatPrice } from '../../../common/helpers/formatPrice';
 import './style.css';
+import OrderDetail from './components/DetailModal';
 
 const { Title } = Typography;
 const { RangePicker } = DatePicker;
@@ -291,71 +292,12 @@ const OrderManagementPage: React.FC = () => {
         visible={modalVisible}
         onCancel={closeDetailModal}
         footer={null}
-        width={750}
+        width={800}
         title={`Chi tiết đơn hàng #${selectedOrder?._id}`}
       >
-        {selectedOrder && (
-          <div style={{ lineHeight: '28px' }}>
-            <h3>📦 Khách hàng</h3>
-            {/* <p>
-              <strong>{selectedOrder.user?.name}</strong> (
-              {selectedOrder.user?.email})
-            </p> */}
-
-            <h3>🚚 Địa chỉ giao hàng</h3>
-            <p>
-              {selectedOrder.shippingAddress.address},{' '}
-              {selectedOrder.shippingAddress.city},{' '}
-              {selectedOrder.shippingAddress.postalCode},{' '}
-              {selectedOrder.shippingAddress.country}
-            </p>
-
-            <h3>📦 Trạng thái đơn hàng</h3>
-            <Tag color={getStatusColor(selectedOrder.status)}>{selectedOrder.status}</Tag>
-
-            <h3>🛒 Sản phẩm</h3>
-            <ul>
-              {selectedOrder.orderItems.map((item) => (
-                <li key={item._id}>
-                  <strong>{item.book.title}</strong> — {item.quantity} ×{' '}
-                  {formatPrice(item.price)} →{' '}
-                  <strong>{formatPrice(item.quantity * item.price)}</strong>
-                </li>
-              ))}
-            </ul>
-
-            <h3>💰 Thanh toán</h3>
-            <p>
-              <strong>Tạm tính:</strong> {formatPrice(selectedOrder.subtotal)}
-            </p>
-            <p>
-              <strong>Giảm giá:</strong>{' '}
-              {formatPrice(selectedOrder.discountAmount)}
-            </p>
-            <p>
-              <strong>Thành tiền:</strong>{' '}
-              <Tag color="green">{formatPrice(selectedOrder.totalPrice)}</Tag>
-            </p>
-            <p>
-              <strong>Thanh toán:</strong>{' '}
-              {selectedOrder.isPaid ? (
-                <Tag color="green">Đã thanh toán</Tag>
-              ) : (
-                <Tag color="red">Chưa thanh toán</Tag>
-              )}
-            </p>
-
-            <h3>📝 Ghi chú</h3>
-            <p>{selectedOrder.notes || 'Không có'}</p>
-
-            <h3>⏱ Thời gian</h3>
-            <p>
-              <strong>Ngày đặt:</strong>{' '}
-              {new Date(selectedOrder.createdAt).toLocaleString('vi-VN')}
-            </p>
-          </div>
-        )}
+        {selectedOrder && <OrderDetail order={selectedOrder} />}
       </Modal>
+
     </div>
   );
 };

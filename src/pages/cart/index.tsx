@@ -136,13 +136,6 @@ const CartPage = () => {
               <Text strong>{formatPrice(totalPrice + shipping)}</Text>
             </div>
 
-            <Input.Search
-              placeholder="Nhập mã giảm giá"
-              enterButton="Áp dụng"
-              size="large"
-              className="coupon-input"
-            />
-
             <Button
               type="primary"
               size="large"
