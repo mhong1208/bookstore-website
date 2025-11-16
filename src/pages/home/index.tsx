@@ -9,13 +9,26 @@ import useProducts from './hooks/useListProduct';
 import BlogSection from './components/Blogs';
 
 const HomePage: React.FC = () => {
-  const { products } = useProducts(1, 8);
+  // Fetch best-selling products
+  const { products: bestSellers, loading: loadingBestSellers } = useProducts({ 
+    _sort: 'sold', 
+    _order: 'desc',
+    _limit: 8 
+  });
+
+  // Fetch newly released products
+  const { products: newReleases, loading: loadingNewReleases } = useProducts({ 
+    _sort: 'createdAt', 
+    _order: 'desc',
+    _limit: 6
+  });
+
   return (
     <div>
       <HeroBanner />
       <FeaturedCategories />
-      <BestSellers data={products} />
-      <NewReleases />
+      <BestSellers data={bestSellers} loading={loadingBestSellers} />
+      <NewReleases data={newReleases} loading={loadingNewReleases} />
       <CustomerReviews />
       <BlogSection />
     </div>

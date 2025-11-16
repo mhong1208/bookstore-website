@@ -19,7 +19,6 @@ const BookCard = ({ book }: { book: IProduct }) => {
     const discount = Number(book.discount) || 0;
     const hasDiscount = discount > 0;
     const finalPrice = hasDiscount ? originalPrice * (1 - discount / 100) : originalPrice;
-    console.log(finalPrice);
     const handleAddToCart = (e: React.MouseEvent) => {
         e.stopPropagation();
         e.preventDefault();
@@ -34,7 +33,7 @@ const BookCard = ({ book }: { book: IProduct }) => {
     };
 
     return (
-          <Link to={`/product/${id}`}>
+          <Link to={`/product/${id}`} style={{ width: '100%'}}>
             <Card
             hoverable
             className="book-card"

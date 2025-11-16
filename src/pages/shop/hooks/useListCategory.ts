@@ -1,15 +1,9 @@
 import { useEffect, useState } from 'react';
 import { categoryService } from '../../../api/category.service';
-
-interface Category {
-  id: string | number;
-  name: string;
-  slug: string;
-  description?: string;
-}
+import type { ICategory } from '../../../types/category';
 
 const useListCategory = () => {
-  const [data, setData] = useState<Category[]>([]);
+  const [data, setData] = useState<ICategory[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<any>(null);
 
