@@ -6,3 +6,11 @@
 .ant-card .ant-card-body {
   padding: 16px;
 }
+
+.ant-layout-sider{
+  background: #ffffff
+}
+
+.ant-layout-sider .ant-layout-sider-trigger{
+  background: var(--color-primary-600);
+}

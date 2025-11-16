@@ -2,16 +2,15 @@ import React, { useState } from 'react';
 import {
   DesktopOutlined,
   FileOutlined,
-  PieChartOutlined,
   UserOutlined,
   AppstoreOutlined,
   LogoutOutlined,
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
-import { Breadcrumb, Layout, Menu, theme, Typography, Dropdown, Avatar, Space } from 'antd';
+import { Breadcrumb, Layout, Menu, theme, Typography, Dropdown, Avatar, Space, Flex } from 'antd';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-
+const { Text } = Typography;
 const { Header, Content, Footer, Sider } = Layout;
 
 // Định nghĩa kiểu cho các mục menu
@@ -33,7 +32,7 @@ function getItem(
 
 // Các mục menu cho trang Admin
 const adminMenuItems: MenuItem[] = [
-  getItem('Dashboard', '/admin/dashboard', <PieChartOutlined />),
+  // getItem('Dashboard', '/admin/dashboard', <PieChartOutlined />),
   getItem('Quản lý Danh mục', '/admin/categories', <AppstoreOutlined />),
   getItem('Quản lý Sản phẩm', '/admin/products', <DesktopOutlined />),
   getItem('Quản lý Người dùng', '/admin/users', <UserOutlined />),
@@ -50,9 +49,7 @@ const AdminLayout: React.FC = () => {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
-  // Hàm xử lý khi nhấn vào menu
   const handleMenuClick: MenuProps['onClick'] = (e) => {
-    // e.key chính là path chúng ta đã định nghĩa
     navigate(e.key);
   };
 
@@ -72,32 +69,37 @@ const AdminLayout: React.FC = () => {
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
-      {/* 1. Sidebar (Menu bên trái) */}
       <Sider
         collapsible
         collapsed={collapsed}
         onCollapse={(value) => setCollapsed(value)}
       >
-        <Title level={3} style={{ color: 'white', textAlign: 'center', margin: '16px 0' }}>
+        <Title level={3} style={{  color: 'var(--color-primary-600)', textAlign: 'center', margin: '16px 0' }}>
           Bookstore
         </Title>
         <Menu
-          theme="dark"
+          theme="light"
           defaultSelectedKeys={['/admin/dashboard']}
           mode="inline"
           items={adminMenuItems}
-          onClick={handleMenuClick} // Thêm sự kiện click
+          onClick={handleMenuClick}
         />
       </Sider>
 
-      {/* 2. Phần nội dung chính (Bên phải) */}
       <Layout>
         <Header style={{ padding: '0 16px', background: colorBgContainer, display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
           <Dropdown menu={{ items: userMenu }} trigger={['click']}>
             <a onClick={(e) => e.preventDefault()}>
               <Space>
-                <Avatar icon={<UserOutlined />} />
-                {user?.name} {user?.email}
+                <Avatar icon={<UserOutlined />} size="large"/>
+                <Flex vertical align="flex-start">
+                  <Text>
+                    {user?.name || 'Hi, Admin'}
+                  </Text>
+                  <Text type='secondary'>
+                    {user?.email}
+                  </Text>
+                </Flex>
               </Space>
             </a>
           </Dropdown>
@@ -115,7 +117,6 @@ const AdminLayout: React.FC = () => {
               borderRadius: borderRadiusLG,
             }}
           >
-            {/* Đây là nơi các trang con (Dashboard, Users...) sẽ được render */}
             <Outlet />
           </div>
         </Content>

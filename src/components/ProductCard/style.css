@@ -1,0 +1,48 @@
+.book-cover-wrapper {
+    position: relative;
+}
+
+.discount-badge {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background: #ff4d4f;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 12px;
+    z-index: 10;
+}
+
+.book-price {
+    margin-top: 10px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.old-price {
+    color: #999;
+    text-decoration: line-through;
+    margin-right: 8px;
+    font-size: 14px;
+}
+
+.current-price {
+    color: #d4380d;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.book-card {
+    transition: transform .2s ease;
+}
+
+.book-card:hover {
+    transform: translateY(-5px);
+}
+
+.book-cover-img {
+    height: 240px;
+    object-fit: cover;
+}

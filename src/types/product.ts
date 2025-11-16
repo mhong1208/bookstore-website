@@ -1,6 +1,7 @@
 import type { ICategory } from "./category";
 
 export interface IProduct {
+  id: any,
   _id: string;
   title: string;
   description?: string;
@@ -11,7 +12,7 @@ export interface IProduct {
   publisher?: string;
   publishedDate?: Date;
   coverImage?: string;
-  categories: ICategory[] | string[]; // Can be populated or just IDs
+  categories: ICategory[] | string[];
   isActive?: boolean;
   createdAt?: string;
   updatedAt?: string;

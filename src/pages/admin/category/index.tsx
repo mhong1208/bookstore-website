@@ -181,7 +181,7 @@ const CategoryManagementPage: React.FC = () => {
         title={editingCategory ? 'Chỉnh Sửa Danh Mục' : 'Thêm Danh Mục Mới'}
         open={isModalVisible}
         onCancel={handleCancel}
-        footer={null} // Tắt footer mặc định
+        footer={null}
       >
         <Form form={form} layout="vertical" onFinish={onFinish}>
           <Form.Item

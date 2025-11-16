@@ -1,25 +1,33 @@
 import { ShoppingCartOutlined } from "@ant-design/icons";
-import { Button, Card } from "antd";
+import { Button, Card, Typography } from "antd";
 import { Meta } from "antd/es/list/Item";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux/cartSlice";
 import { Link } from 'react-router-dom';
 import image from '../../assets/icon-no-image.svg';
 import { formatPrice } from "../../common/helpers/formatPrice";
+import type { IProduct } from "../../types/product";
+const { Paragraph } = Typography;
+import './style.css';
 
-const BookCard = ({ book }: any) => {
+const BookCard = ({ book }: { book: IProduct }) => {
     const dispatch = useDispatch();
 
     const id = (book.id ?? book._id ?? `${book.title}-${book.author ?? ''}`) as string;
 
+    const originalPrice = Number(book.price) || 0;
+    const discount = Number(book.discount) || 0;
+    const hasDiscount = discount > 0;
+    const finalPrice = hasDiscount ? originalPrice * (1 - discount / 100) : originalPrice;
+    console.log(finalPrice);
     const handleAddToCart = (e: React.MouseEvent) => {
         e.stopPropagation();
         e.preventDefault();
         const payload = {
-            id: String(id),
+            id: book.id ?? book._id,
             title: book.title,
-            price: Number(book.price) || 0,
-            coverImage: book.coverImage,
+            price: finalPrice,
+            coverImage: book.coverImage || '',
         };
 
         dispatch(addToCart(payload));
@@ -31,14 +39,28 @@ const BookCard = ({ book }: any) => {
             hoverable
             className="book-card"
             cover={
-                <img alt={book.title} src={book.coverImage || image} className="book-cover-img" />
+                <div className="book-cover-wrapper">
+                    {hasDiscount && (
+                        <span className="discount-badge">-{discount}%</span>
+                    )}
+                    <img
+                        alt={book.title}
+                        src={book.coverImage || image}
+                        className="book-cover-img"
+                    />
+                </div>
             }
             >
-            <Meta title={<Link to={`/product/${id}`}>{book.title}</Link>} description={book.author} />
+            <Meta title={<Link to={`/product/${id}`}><Paragraph style={{ marginBottom: 0}} ellipsis={{ rows: 1}}>{book.title}</Paragraph></Link>} description={book.author} />
             <div className="book-price">
-                <span className="current-price">{formatPrice(book.price)}</span>
-                {book.oldPrice && <span className="old-price">{book.oldPrice}</span>}
+                {hasDiscount && (
+                    <span className="old-price">
+                        {formatPrice(originalPrice)}
+                    </span>
+                )}
+                <span className="current-price">{formatPrice(finalPrice)}</span>
             </div>
+
             <Button
                 style={{ width: '100%' }}
                 type="primary"

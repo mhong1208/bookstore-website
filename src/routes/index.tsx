@@ -16,6 +16,7 @@ import ProductManagementPage from '../pages/admin/product';
 import VoucherManagementPage from '../pages/admin/voucher';
 import UserManagementPage from '../pages/admin/user';
 import OrderManagementPage from '../pages/admin/order';
+import ProfilePage from '../pages/profile';
 
 
 const router = createBrowserRouter([
@@ -33,6 +34,7 @@ const router = createBrowserRouter([
         children: [
           { path: 'cart', element: <CartPage /> },
           { path: 'checkout', element: <CheckoutPage /> },
+          { path: 'profile', element: <ProfilePage /> },
         ],
       },
     ],
@@ -42,7 +44,7 @@ const router = createBrowserRouter([
     path: '/admin',
     element: <AdminLayout />, // Layout chỉ render 1 lần
     children: [
-      { path: 'dashboard', element: <AdminDashboard /> },
+      // { path: 'dashboard', element: <AdminDashboard /> },
       { path: 'categories', element: <CategoryManagementPage /> },
       { path: 'products', element: <ProductManagementPage /> },
       { path: 'vouchers', element: <VoucherManagementPage /> },

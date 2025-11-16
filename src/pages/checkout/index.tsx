@@ -1,4 +1,4 @@
-import { Row, Col, Card, Form, Input, Radio, Button, Typography, Space, Avatar, Modal, Badge, Result } from 'antd';
+import { Row, Col, Card, Form, Input, Radio, Button, Typography, Space, Avatar, Modal, Badge, Result, Spin } from 'antd';
 import { BankOutlined, CreditCardOutlined, MoneyCollectOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,6 +9,7 @@ import { useAuth } from '../../context/AuthContext';
 import { clearCart, selectCartItems, selectCartTotalPrice } from '../../redux/cartSlice';
 import { Link } from 'react-router-dom';
 import orderService from '../../api/order.service';
+import voucherService from '../../api/voucher.service';
 
 const { Title, Text } = Typography;
 
@@ -31,8 +32,13 @@ const CheckoutPage = () => {
   const subtotal = useSelector(selectCartTotalPrice);
 
   const [shippingMethod, setShippingMethod] = useState('standard');
+  const [voucherCode, setVoucherCode] = useState('');
+  const [discount, setDiscount] = useState(0);
+  const [voucherError, setVoucherError] = useState<string | null>(null);
+  const [loadingVoucher, setLoadingVoucher] = useState(false);
+
   const shippingFee = SHIPPING_FEES[shippingMethod as keyof typeof SHIPPING_FEES];
-  const total = subtotal + shippingFee;
+  const total = subtotal + shippingFee - discount;
 
   useEffect(() => {
     if (user) {
@@ -42,6 +48,29 @@ const CheckoutPage = () => {
       });
     }
   }, [user, form]);
+
+  const handleApplyVoucher = async () => {
+    if (!voucherCode.trim()) {
+      setVoucherError('Vui lòng nhập mã giảm giá.');
+      return;
+    }
+    setLoadingVoucher(true);
+    setVoucherError(null);
+    try {
+      const response = await voucherService.applyVoucher(voucherCode, subtotal);
+      setDiscount(response.discountAmount);
+      Modal.success({
+        title: 'Thành công',
+        content: `Áp dụng mã giảm giá thành công! Bạn được giảm ${formatPrice(response.discountAmount)}.`,
+      });
+    } catch (error: any) {
+      setDiscount(0);
+      const errorMessage = error.response?.data?.message || 'Mã giảm giá không hợp lệ hoặc không thể áp dụng.';
+      setVoucherError(errorMessage);
+    } finally {
+      setLoadingVoucher(false);
+    }
+  };
 
   const handleOrderComplete = async (values: any) => {
     if (!user) {
@@ -61,22 +90,21 @@ const CheckoutPage = () => {
         title: item.title,
         image: item.coverImage
       })),
-      shippingAddress: {
-        address: values.address,
-        city: 'Default City', // You might want to add city, postalCode, country fields to your form
-        postalCode: '00000',
-        country: 'Vietnam',
-      },
+      shippingAddress: values.address,
       paymentMethod: values.paymentMethod,
       shippingMethod: values.shippingMethod,
       notes: values.notes,
       subtotal,
+      discountAmount: discount,
+      voucherCode: discount > 0 ? voucherCode : undefined,
       totalPrice: total,
     };
 
     try {
-      await orderService.createOrder(orderData);
+      await orderService.createOrder(orderData as any);
       dispatch(clearCart());
+      setDiscount(0);
+      setVoucherCode('');
       Modal.success({
         title: 'Đặt hàng thành công!',
         content: 'Cảm ơn bạn đã mua hàng. Chúng tôi sẽ xử lý đơn hàng của bạn sớm nhất.',
@@ -138,20 +166,12 @@ const CheckoutPage = () => {
 
             <Card title="Phương thức vận chuyển" className="checkout-card">
               <Form.Item name="shippingMethod" initialValue="standard">
-                <Radio.Group onChange={(e) => setShippingMethod(e.target.value)}>
-                  <Radio value="standard" className="radio-option">
-                    <div>
-                      <Text strong>Giao hàng tiêu chuẩn</Text>
-                      <Text type="secondary" style={{ display: 'block' }}>Dự kiến 3-5 ngày</Text>
-                    </div>
-                    <Text strong>{formatPrice(SHIPPING_FEES.standard)}</Text>
+                <Radio.Group className="payment-method-group"  onChange={(e) => setShippingMethod(e.target.value)}>
+                  <Radio value="standard" className="radio-option-payment" >
+                      <Text strong>Giao hàng tiêu chuẩn (3-5 ngày) - <Text strong>{formatPrice(SHIPPING_FEES.standard)}</Text></Text>
                   </Radio>
-                  <Radio value="express" className="radio-option">
-                    <div>
-                      <Text strong>Giao hàng nhanh</Text>
-                      <Text type="secondary" style={{ display: 'block' }}>Dự kiến 1-2 ngày</Text>
-                    </div>
-                    <Text strong>{formatPrice(SHIPPING_FEES.express)}</Text>
+                  <Radio value="express" className="radio-option-payment">
+                      <Text strong>Giao hàng nhanh (1-2 ngày) - <Text strong>{formatPrice(SHIPPING_FEES.express)}</Text></Text>
                   </Radio>
                 </Radio.Group>
               </Form.Item>
@@ -176,37 +196,73 @@ const CheckoutPage = () => {
 
           {/* Right Column: Order Summary */}
           <Col xs={24} lg={10}>
-            <Card title="Tóm tắt đơn hàng" className="summary-card">
-              {cartItems.map(item => (
-                <div key={item.id} className="summary-item">
-                  <Space align="start">
-                    <Badge count={item.quantity}>
-                      <Avatar shape="square" src={item.coverImage} size={64} />
-                    </Badge>
-                    <div className="item-details">
-                      <Text strong>{item.title}</Text>
-                      <Text type="secondary">{formatPrice(item.price)}</Text>
-                    </div>
-                  </Space>
-                  <Text strong>{formatPrice(item.price * item.quantity)}</Text>
+            <Spin spinning={loadingVoucher}>
+              <Card title="Tóm tắt đơn hàng" className="summary-card">
+                {cartItems.map(item => (
+                  <div key={item.id} className="summary-item">
+                    <Space align="start">
+                      <Badge count={item.quantity}>
+                        <Avatar shape="square" src={item.coverImage} size={64} />
+                      </Badge>
+                      <div className="item-details">
+                        <Text strong>{item.title}</Text>
+                        <Text type="secondary">{formatPrice(item.price)}</Text>
+                      </div>
+                    </Space>
+                    <Text strong>{formatPrice(item.price * item.quantity)}</Text>
+                  </div>
+                ))}
+
+                <Form.Item
+                  label="Mã giảm giá"
+                  help={voucherError && <Text type="danger">{voucherError}</Text>}
+                  validateStatus={voucherError ? 'error' : ''}
+                  style={{ marginBottom: 0 }}
+                >
+                  <Space.Compact style={{ width: '100%' }}>
+                    <Input
+                      placeholder="Nhập mã giảm giá"
+                      value={voucherCode}
+                      onChange={(e) => {
+                        setVoucherCode(e.target.value);
+                        if (voucherError) setVoucherError(null);
+                      }}
+                      disabled={discount > 0}
+                    />
+                    <Button
+                      type="primary"
+                      onClick={handleApplyVoucher}
+                      loading={loadingVoucher}
+                      disabled={discount > 0}
+                    >
+                      Áp dụng
+                    </Button>
+                  </Space.Compact>
+                </Form.Item>
+
+                <div className="summary-row">
+                  <Text>Tạm tính</Text>
+                  <Text>{formatPrice(subtotal)}</Text>
                 </div>
-              ))}
-              <div className="summary-row">
-                <Text>Tạm tính</Text>
-                <Text>{formatPrice(subtotal)}</Text>
-              </div>
-              <div className="summary-row">
-                <Text>Phí vận chuyển</Text>
-                <Text>{formatPrice(shippingFee)}</Text>
-              </div>
-              <div className="summary-row total-row">
-                <Text strong>Tổng cộng</Text>
-                <Text strong className="total-price">{formatPrice(total)}</Text>
-              </div>
-              <Button type="primary" htmlType="submit" size="large" block className="complete-order-btn" disabled={cartItems.length === 0}>
-                Hoàn tất đơn hàng
-              </Button>
-            </Card>
+                <div className="summary-row">
+                  <Text>Phí vận chuyển</Text>
+                  <Text>{formatPrice(shippingFee)}</Text>
+                </div>
+                {discount > 0 && (
+                  <div className="summary-row">
+                    <Text style={{ color: 'green' }}>Giảm giá</Text>
+                    <Text style={{ color: 'green' }}>-{formatPrice(discount)}</Text>
+                  </div>
+                )}
+                <div className="summary-row total-row">
+                  <Text strong>Tổng cộng</Text>
+                  <Text strong className="total-price">{formatPrice(total)}</Text>
+                </div>
+                <Button type="primary" htmlType="submit" size="large" block className="complete-order-btn" disabled={cartItems.length === 0}>
+                  Hoàn tất đơn hàng
+                </Button>
+              </Card>
+            </Spin>
           </Col>
         </Row>
       </Form>

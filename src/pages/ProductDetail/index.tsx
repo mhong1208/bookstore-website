@@ -24,7 +24,7 @@ const ProductDetailPage: React.FC = () => {
     if (!product) return;
     
     dispatch(addToCart({
-      id: String(product.id),
+      id: product.id ?? product._id,
       title: product.title,
       price: Number(product.price) || 0,
       coverImage: product.coverImage || ''

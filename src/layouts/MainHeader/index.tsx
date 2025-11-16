@@ -42,7 +42,7 @@ const MainHeader: React.FC = () => {
     {
       key: 'admin_dashboard',
       label: (
-        <Link to="/admin/dashboard">Trang quản trị</Link>
+        <Link to="/admin/categories">Trang quản trị</Link>
       ),
     },
     {

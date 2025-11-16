@@ -11,8 +11,9 @@ import {
   Select,
   Switch,
   Avatar,
+  Tag,
 } from 'antd';
-import { EditOutlined, UserOutlined } from '@ant-design/icons';
+import { BlockOutlined, EditOutlined, LockOutlined, UserOutlined } from '@ant-design/icons';
 import { userService } from '../../../api/user.service';
 import type { IUser } from '../../../types/user';
 import { EUser } from '../../../common/enums/EUser';
@@ -134,9 +135,9 @@ const UserManagementPage: React.FC = () => {
       dataIndex: 'isActive',
       key: 'isActive',
       render: (isActive: boolean) => (
-        <span style={{ color: isActive ? 'green' : 'red' }}>
-          {isActive ? 'Hoạt động' : 'Bị khóa'}
-        </span>
+        <Tag color={isActive ? 'green' : 'red'}>
+          {isActive ? 'Hoạt Động' : 'Khóa'}
+        </Tag>
       ),
     },
     {
@@ -153,7 +154,7 @@ const UserManagementPage: React.FC = () => {
             okText="Xác nhận"
             cancelText="Hủy"
           >
-            <Button danger={record.isActive}>
+            <Button icon={<LockOutlined />}danger={record.isActive}>
               {record.isActive ? 'Khóa' : 'Mở khóa'}
             </Button>
           </Popconfirm>

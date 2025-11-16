@@ -13,12 +13,13 @@ import {
   InputNumber,
   DatePicker,
   Switch,
+  Tag,
 } from 'antd';
-import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
-import { voucherService } from '../../../api/voucher.service';
+import { PlusOutlined, EditOutlined } from '@ant-design/icons';
 import type { IVoucher } from '../../../types/voucher';
 import moment from 'moment';
 import './styles.css';
+import voucherService from '../../../api/voucher.service';
 
 const { Title } = Typography;
 const { Option } = Select;
@@ -33,7 +34,7 @@ const VoucherManagementPage: React.FC = () => {
   const fetchVouchers = async () => {
     setLoading(true);
     try {
-      const response = await voucherService.getAll();
+      const response = await voucherService.getVouchers();
       setVouchers(response.data);
     } catch (error) {
       notification.error({
@@ -80,13 +81,13 @@ const VoucherManagementPage: React.FC = () => {
 
     try {
       if (editingVoucher) {
-        await voucherService.update(editingVoucher._id, payload);
+        await voucherService.updateVoucher(editingVoucher._id, payload);
         notification.success({
           message: 'Thành công',
           description: 'Cập nhật voucher thành công.',
         });
       } else {
-        await voucherService.create(payload);
+        await voucherService.createVoucher(payload);
         notification.success({
           message: 'Thành công',
           description: 'Thêm voucher thành công.',
@@ -107,7 +108,7 @@ const VoucherManagementPage: React.FC = () => {
   const handleToggleActive = async (voucher: IVoucher) => {
     setLoading(true);
     try {
-      await voucherService.update(voucher._id, {
+      await voucherService.updateVoucher(voucher._id, {
         isActive: !voucher.isActive,
       });
       notification.success({
@@ -158,9 +159,9 @@ const VoucherManagementPage: React.FC = () => {
       dataIndex: 'isActive',
       key: 'isActive',
       render: (isActive: boolean) => (
-        <span style={{ color: isActive ? 'green' : 'red' }}>
-          {isActive ? 'Hoạt động' : 'Không hoạt động'}
-        </span>
+        <Tag color={isActive ? 'green' : 'red'}>
+          {isActive ? 'Hoạt Động' : 'Ngưng hoạt động'}
+        </Tag>
       ),
     },
     {

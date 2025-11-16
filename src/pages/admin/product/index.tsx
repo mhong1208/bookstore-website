@@ -13,8 +13,11 @@ import {
   Select,
   DatePicker,
   Switch,
+  Row,
+  Col,
+  Tag,
 } from 'antd';
-import { PlusOutlined, EditOutlined } from '@ant-design/icons';
+import { PlusOutlined, EditOutlined, SaveOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { productService } from '../../../api/product.service';
 import { categoryService } from '../../../api/category.service';
@@ -131,7 +134,7 @@ const ProductManagementPage: React.FC = () => {
     {
       title: 'Trạng thái',
       dataIndex: 'isActive',
-      render: (isActive: boolean) => <span style={{ color: isActive ? 'green' : 'red' }}>{isActive ? 'Hoạt động' : 'Không hoạt động'}</span>
+      render: (isActive: boolean) => <Tag color={isActive ? 'green' : 'red'}>{isActive ? 'Kích hoạt' : 'Hủy kích hoạt'}</Tag>
     },
     {
       title: 'Hành động',
@@ -162,48 +165,90 @@ const ProductManagementPage: React.FC = () => {
         visible={isModalVisible}
         onCancel={handleCancel}
         footer={null}
-        width={800}
+        width={900}
       >
         <Form form={form} layout="vertical" onFinish={onFinish}>
-          <Form.Item name="title" label="Tên sản phẩm" rules={[{ required: true, message: 'Nhập tên sản phẩm' }]}>
-            <Input />
-          </Form.Item>
-          <Form.Item name="description" label="Mô tả">
-            <Input.TextArea rows={4} />
-          </Form.Item>
-          <Form.Item name="price" label="Giá" rules={[{ required: true, message: 'Nhập giá' }]}>
-            <InputNumber min={0} style={{ width: '100%' }} />
-          </Form.Item>
-          <Form.Item name="stock" label="Tồn kho">
-            <InputNumber min={0} style={{ width: '100%' }} />
-          </Form.Item>
-          <Form.Item name="author" label="Tác giả">
-            <Input />
-          </Form.Item>
-          <Form.Item name="publisher" label="Nhà xuất bản">
-            <Input />
-          </Form.Item>
-          <Form.Item name="publishedDate" label="Ngày xuất bản">
-            <DatePicker style={{ width: '100%' }} />
-          </Form.Item>
-          <Form.Item name="coverImage" label="URL Ảnh bìa" rules={[{ required: true, message: 'Nhập URL ảnh bìa' }]}>
-            <Input />
-          </Form.Item>
-          <Form.Item name="categories" label="Danh mục">
-            <Select mode="multiple" placeholder="Chọn danh mục">
-              {categories.map(cat => <Option key={cat._id} value={cat._id}>{cat.name}</Option>)}
-            </Select>
-          </Form.Item>
-          <Form.Item name="isActive" label="Trạng thái" valuePropName="checked">
-            <Switch defaultChecked />
-          </Form.Item>
+          <Row gutter={16}>
+            <Col span={24}>
+              <Form.Item
+                name="title"
+                label="Tên sản phẩm"
+                rules={[{ required: true, message: 'Nhập tên sản phẩm' }]}
+              >
+                <Input />
+              </Form.Item>
+              <Form.Item name="description" label="Mô tả">
+                <Input.TextArea rows={8} />
+              </Form.Item>
+              <Form.Item
+                name="coverImage"
+                label="URL Ảnh bìa"
+                rules={[{ required: true, message: 'Nhập URL ảnh bìa' }]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+
+            <Col span={12}>
+              <Form.Item name="author" label="Tác giả">
+                <Input />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item name="publisher" label="Nhà xuất bản">
+                <Input />
+              </Form.Item>
+            </Col>
+          </Row>
+
+          <Row gutter={16}>
+            <Col span={12}>
+              <Form.Item name="categories" label="Danh mục">
+                <Select mode="multiple" placeholder="Chọn danh mục">
+                  {categories.map(cat => (
+                    <Option key={cat._id} value={cat._id}>
+                      {cat.name}
+                    </Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item name="isActive" label="Trạng thái" valuePropName="checked">
+                <Switch defaultChecked />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item
+                name="price"
+                label="Giá"
+                rules={[{ required: true, message: 'Nhập giá' }]}
+              >
+                <InputNumber min={0} style={{ width: '100%' }} />
+              </Form.Item>
+              </Col>
+              <Col span={12}>
+              {/* Thêm trường Discount */}
+              <Form.Item name="discount" label="Giảm giá (%)">
+                <InputNumber min={0} max={100} style={{ width: '100%' }} />
+              </Form.Item>
+                  </Col>
+                  <Col span={12}>
+              <Form.Item name="stock" label="Tồn kho">
+                <InputNumber min={0} style={{ width: '100%' }} />
+              </Form.Item>
+            </Col>
+
+          </Row>
+
           <Form.Item>
-            <Button type="primary" htmlType="submit" loading={loading}>
+            <Button icon={<SaveOutlined />}type="primary" htmlType="submit" loading={loading}>
               {editingProduct ? 'Lưu' : 'Tạo mới'}
             </Button>
           </Form.Item>
         </Form>
       </Modal>
+
     </div>
   );
 };

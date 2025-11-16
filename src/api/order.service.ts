@@ -30,7 +30,7 @@ const orderService = {
     return axiosClient.get(`/api/orders/user/${userId}`);
   },
   updateOrderStatus: (orderId: string, payload: { status: string }): Promise<IOrder> => {
-    return axiosClient.put(`/api/orders/${orderId}`, payload);
+    return axiosClient.put(`/api/orders/${orderId}/status`, payload);
   },
 };
 
