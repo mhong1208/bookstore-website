@@ -1,10 +1,11 @@
 import "./styles.css";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Row, Col, Input, Pagination, Card, Skeleton, Empty } from "antd";
+import { Row, Col, Input, Pagination, Card, Skeleton, Empty } from "antd"; // Đã thêm Empty
 import useProducts from "./hooks/useListProduct";
 import BookCard from "../../components/ProductCard";
 import useListCategory from "./hooks/useListCategory";
+import { Content } from "antd/es/layout/layout";
 
 const { Search } = Input;
 
@@ -29,10 +30,10 @@ const ShopPage = () => {
   });
   const { categories } = useListCategory();
 
-  // Skeleton items for loading state
+  // Tạo mảng skeleton để render khi loading
   const skeletonItems = Array.from({ length: pageSize }).map((_, index) => (
-    <Col xs={24} sm={12} md={8} lg={6} key={index} style={{ display: "flex" }}>
-      <Card style={{ width: "100%" }}>
+    <Col xs={24} sm={12} md={8} lg={6} key={index}>
+      <Card>
         <Skeleton active paragraph={{ rows: 4 }} />
       </Card>
     </Col>
@@ -72,8 +73,17 @@ const ShopPage = () => {
         </ul>
       </Card>
 
-      {/* Main Content */}
-      <div className="shop-content">
+      {/* Content */}
+      <div
+        style={{
+          flex: 1,
+          padding: '0 24px',
+          display: 'flex',
+          justifyContent: 'center',
+        }}
+      >
+        <div style={{ width: '100%'}}>
+
         <div className="search-bar">
           <Search
             placeholder="Tìm kiếm sản phẩm..."
@@ -88,15 +98,16 @@ const ShopPage = () => {
         </div>
 
         {/* Products Grid */}
-        <div className="products-grid">
-          {loading ? (
-            <Row gutter={[16, 16]} style={{ flexWrap: "wrap" }}>
-              {skeletonItems}
-            </Row>
-          ) : products.length === 0 ? (
+        {loading ? (
+          <Row gutter={[16, 16]}>
+            {skeletonItems}
+          </Row>
+        ) : (
+          products.length === 0 ? (
             <Empty description="Không tìm thấy sản phẩm nào" />
           ) : (
-            <Row gutter={[16, 16]} justify="start" style={{ flexWrap: "wrap" }}>
+            // --- THÊM 'justify="start"' VÀO ĐÂY ---
+            <Row gutter={[16, 16]} justify="start"> 
               {products.map((product) => (
                 <Col
                   xs={24}
@@ -104,14 +115,14 @@ const ShopPage = () => {
                   md={8}
                   lg={6}
                   key={product._id}
-                  style={{ display: "flex" }}
+                  style={{ marginBottom: 16 }}
                 >
                   <BookCard book={product} />
                 </Col>
               ))}
             </Row>
-          )}
-        </div>
+          )
+        )}
 
         {/* Pagination */}
         <div className="pagination">
@@ -122,6 +133,7 @@ const ShopPage = () => {
             onChange={(p) => setPageIndex(p)}
             showSizeChanger={false}
           />
+        </div>
         </div>
       </div>
     </div>

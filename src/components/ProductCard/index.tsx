@@ -33,7 +33,7 @@ const BookCard = ({ book }: { book: IProduct }) => {
     };
 
     return (
-          <Link to={`/product/${id}`} style={{ width: '100%'}}>
+          <Link to={`/product/${id}`}>
             <Card
             hoverable
             className="book-card"
