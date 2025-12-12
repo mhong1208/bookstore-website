@@ -7,11 +7,13 @@ interface ProductParams {
   pageIndex: number;
   categoryId?: string | null;
   name?: string | null;
+  isActive?: boolean;
+  [key: string]: any;
 }
 
 const useProducts = (params: ProductParams) => {
   const [products, setProducts] = useState<any[]>([]);
-  const [total, setTotal] = useState(0); 
+  const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<any>(null);
 
@@ -21,10 +23,12 @@ const useProducts = (params: ProductParams) => {
       setError(null);
 
       const response = await productService.getAll({
+        ...params,
         pageSize: params.pageSize,
         pageIndex: params.pageIndex,
         categoryId: params.categoryId || undefined,
         name: params.name || undefined,
+        isActive: params.isActive,
       });
 
       // Chuẩn hóa data trả về
@@ -49,6 +53,7 @@ const useProducts = (params: ProductParams) => {
     params.pageIndex,
     params.categoryId,
     params.name,
+    params.isActive,
   ]);
 
   return { products, total, loading, error, refetch: fetchProducts };

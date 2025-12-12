@@ -123,13 +123,13 @@ const CheckoutPage = () => {
 
   if (cartItems.length === 0) {
     return (
-        <div className="checkout-page-container">
-            <Result
-                icon={<ShoppingCartOutlined />}
-                title="Giỏ hàng của bạn đang trống"
-                extra={<Link to="/shop"><Button type="primary">Bắt đầu mua sắm</Button></Link>}
-            />
-        </div>
+      <div className="checkout-page-container">
+        <Result
+          icon={<ShoppingCartOutlined />}
+          title="Giỏ hàng của bạn đang trống"
+          extra={<Link to="/shop"><Button type="primary">Bắt đầu mua sắm</Button></Link>}
+        />
+      </div>
     )
   }
 
@@ -166,12 +166,12 @@ const CheckoutPage = () => {
 
             <Card title="Phương thức vận chuyển" className="checkout-card">
               <Form.Item name="shippingMethod" initialValue="standard">
-                <Radio.Group className="payment-method-group"  onChange={(e) => setShippingMethod(e.target.value)}>
+                <Radio.Group className="payment-method-group" onChange={(e) => setShippingMethod(e.target.value)}>
                   <Radio value="standard" className="radio-option-payment" >
-                      <Text strong>Giao hàng tiêu chuẩn (3-5 ngày) - <Text strong>{formatPrice(SHIPPING_FEES.standard)}</Text></Text>
+                    <Text strong>Giao hàng tiêu chuẩn (3-5 ngày) - <Text strong>{formatPrice(SHIPPING_FEES.standard)}</Text></Text>
                   </Radio>
                   <Radio value="express" className="radio-option-payment">
-                      <Text strong>Giao hàng nhanh (1-2 ngày) - <Text strong>{formatPrice(SHIPPING_FEES.express)}</Text></Text>
+                    <Text strong>Giao hàng nhanh (1-2 ngày) - <Text strong>{formatPrice(SHIPPING_FEES.express)}</Text></Text>
                   </Radio>
                 </Radio.Group>
               </Form.Item>

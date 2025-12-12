@@ -10,17 +10,19 @@ import BlogSection from './components/Blogs';
 
 const HomePage: React.FC = () => {
   // Fetch best-selling products
-  const { products: bestSellers, loading: loadingBestSellers } = useProducts({ 
-    _sort: 'sold', 
+  const { products: bestSellers, loading: loadingBestSellers } = useProducts({
+    _sort: 'sold',
     _order: 'desc',
-    _limit: 8 
+    _limit: 8,
+    isActive: true,
   });
 
   // Fetch newly released products
-  const { products: newReleases, loading: loadingNewReleases } = useProducts({ 
-    _sort: 'createdAt', 
+  const { products: newReleases, loading: loadingNewReleases } = useProducts({
+    _sort: 'createdAt',
     _order: 'desc',
-    _limit: 6
+    _limit: 6,
+    isActive: true,
   });
 
   return (

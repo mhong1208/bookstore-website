@@ -6,14 +6,11 @@ const { Text } = Typography;
 
 interface BestSellersProps {
   data: any[];
+  loading?: boolean;
 }
 
-const BestSellers = ({ data }: BestSellersProps) => {
+const BestSellers = ({ data, loading }: BestSellersProps) => {
   const navigate = useNavigate();
-
-  const handleNavigate = (id: number) => {
-    navigate(`/product/${id}`);
-  };
 
   return (
     <div className="bestsellers-section">
@@ -23,14 +20,25 @@ const BestSellers = ({ data }: BestSellersProps) => {
       </div>
 
       <Row gutter={[16, 16]}>
-        {data.map((book) => (
-          <Col 
-            key={book.id} 
-            xs={24} sm={12} md={8} lg={6} // responsive
-          >
-            <BookCard book={book} onClick={() => handleNavigate(book.id)} />
-          </Col>
-        ))}
+        {loading
+          ? Array.from({ length: 4 }).map((_, index) => (
+            <Col key={index} xs={24} sm={12} md={8} lg={6}>
+              <div style={{ padding: 24, border: '1px solid #f0f0f0', borderRadius: 8 }}>
+                <Typography.Title level={5} style={{ display: 'none' }}>Skeleton</Typography.Title>
+                <div style={{ width: '100%', height: 200, background: '#f5f5f5', marginBottom: 16 }} />
+                <div style={{ height: 20, width: '80%', background: '#f5f5f5', marginBottom: 8 }} />
+                <div style={{ height: 20, width: '40%', background: '#f5f5f5' }} />
+              </div>
+            </Col>
+          ))
+          : data.map((book) => (
+            <Col
+              key={book.id || book._id} // Support both id and _id
+              xs={24} sm={12} md={8} lg={6}
+            >
+              <BookCard book={book} />
+            </Col>
+          ))}
       </Row>
 
       <div style={{ textAlign: 'center', marginTop: '30px' }}>
